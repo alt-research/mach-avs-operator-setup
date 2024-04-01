@@ -17,6 +17,7 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+
   mach-operator-node:
     env_file:
       - .env
@@ -34,6 +35,7 @@ services:
       - "${NODE_LOG_PATH_HOST}:/app/logs:rw"
       - "${NODE_DB_PATH_HOST}:/data/operator/db:rw"
     restart: unless-stopped
+
   mach-operator-verifier:
     env_file:
       - .env
@@ -44,9 +46,14 @@ services:
     networks:
       - alt-mach-operator-network
     volumes:
+      - "${MACH_CONFIG_PATH}:/app/config.toml:readonly"
+      - "${MACH_ALERT_CHAIN_GENESIS_PATH}:/app/genesis.json:readonly"
       - "${NODE_CACHE_PATH_HOST}:/app/cache:rw"
       - "${NODE_LOG_PATH_HOST}:/app/logs:rw"
       - "${NODE_DB_PATH_HOST}:/data/operator/db:rw"
+    command:
+      - --config=/app/config.toml
+      - --genesis-config=/app/genesis.json
     depends_on:
       - mach-operator-node
     restart: unless-stopped
