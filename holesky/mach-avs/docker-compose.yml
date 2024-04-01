@@ -1,0 +1,63 @@
+version: '3.8'
+services:
+  reverse-proxy:
+    image: nginx:latest
+    ports:
+      - "${NODE_API_PORT}:${NODE_API_PORT}"
+    volumes:
+      - "${NODE_NGINX_CONF_HOST}:/etc/nginx/templates/default.conf.template:ro"
+    depends_on:
+      - mach-operator-verifier
+    networks:
+      - alt-mach-operator-network
+    environment:
+      - "REQUEST_LIMIT=10r/s"
+      - "NODE_HOST=${MAIN_SERVICE_NAME}"
+      - "BURST_LIMIT=50"
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  mach-operator-node:
+    env_file:
+      - .env
+    container_name: ${MAIN_SERVICE_NAME}
+    image: ${MAIN_SERVICE_IMAGE}
+    ports:
+      - "${NODE_METRICS_PORT}:${NODE_METRICS_PORT}"
+    networks:
+      - alt-mach-operator-network
+    volumes:
+      - "${NODE_ECDSA_KEY_FILE_HOST}:/app/operator_keys/ecdsa_key.json:readonly"
+      - "${NODE_BLS_KEY_FILE_HOST}:/app/operator_keys/bls_key.json:readonly"
+      - "${NODE_OPERATOR_CONF_HOST}:/app/config/operator.yaml:readonly"
+      - "${NODE_CACHE_PATH_HOST}:/app/cache:rw"
+      - "${NODE_LOG_PATH_HOST}:/app/logs:rw"
+      - "${NODE_DB_PATH_HOST}:/data/operator/db:rw"
+    restart: unless-stopped
+
+  mach-operator-verifier:
+    env_file:
+      - .env
+    container_name: ${MACH_VERIFIER_SERVICE_NAME}
+    image: ${MACH_VERIFIER_IMAGE}
+    ports:
+      - "${NODE_VERIFIER_METRICS_PORT}:${NODE_VERIFIER_METRICS_PORT}"
+    networks:
+      - alt-mach-operator-network
+    volumes:
+      - "${MACH_CONFIG_PATH}:/app/config.toml:readonly"
+      - "${MACH_ALERT_CHAIN_GENESIS_PATH}:/app/genesis.json:readonly"
+      - "${NODE_CACHE_PATH_HOST}:/app/cache:rw"
+      - "${NODE_LOG_PATH_HOST}:/app/logs:rw"
+      - "${NODE_DB_PATH_HOST}:/data/operator/db:rw"
+    command:
+      - --config=/app/config.toml
+      - --genesis-config=/app/genesis.json
+    depends_on:
+      - mach-operator-node
+    restart: unless-stopped
+
+networks:
+  alt-mach-operator-network:
+    name: ${NETWORK_NAME}
