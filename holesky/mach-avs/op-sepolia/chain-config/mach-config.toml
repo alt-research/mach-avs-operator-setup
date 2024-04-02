@@ -30,7 +30,7 @@ rpc_rate_ms = 100
 ##############################################
 [fetcher]
 # The JSONRPC endpoint of Optimism node
-url = "https://op-demo.alt.technology/"
+url = "https://sepolia.optimism.io/"
 # The interval (milliseconds) for fetching finalized/latest block of Optimism node
 # Optional, default value: 1000ms
 interval_ms = 4000
