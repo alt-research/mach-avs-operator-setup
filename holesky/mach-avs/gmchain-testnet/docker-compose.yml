@@ -23,8 +23,8 @@ services:
       - .env
     container_name: ${MAIN_SERVICE_NAME}
     image: ${MAIN_SERVICE_IMAGE}
-    ports:
-      - "${NODE_METRICS_PORT}:${NODE_METRICS_PORT}"
+    expose:
+      - 9092
     networks:
       - alt-mach-operator-network
     volumes:
@@ -41,8 +41,8 @@ services:
       - .env
     container_name: ${MACH_VERIFIER_SERVICE_NAME}
     image: ${MACH_VERIFIER_IMAGE}
-    ports:
-      - "${NODE_VERIFIER_METRICS_PORT}:9094"
+    expose:
+      - 9094
     networks:
       - alt-mach-operator-network
     volumes:
@@ -57,6 +57,65 @@ services:
     depends_on:
       - mach-operator-node
     restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: ${MONITOR_NODE_EXPORTER_NAME}
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    expose:
+      - 9100
+    networks:
+      - alt-mach-operator-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    env_file:
+      - .env
+    container_name: ${MONITOR_PROMETHEUS_NAME}
+    restart: unless-stopped
+    volumes:
+      - "../../../resources/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    expose:
+      - 9090
+    networks:
+      - alt-mach-operator-network
+
+  grafana:
+    image: grafana/grafana
+    container_name: ${MONITOR_GRAFANA_NAME}
+    ports:
+      - "13021:3000"
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+    volumes:
+      - "grafana_data:/var/lib/grafana"
+      - "../../../resources/monitoring/grafana:/etc/grafana/provisioning/datasources"
+      - "../../../resources/monitoring/dashboards:/etc/grafana/provisioning/dashboards"
+      - "../../../resources/monitoring/alerting:/etc/grafana/provisioning/alerting"
+    networks:
+      - alt-mach-operator-network
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
 
 networks:
   alt-mach-operator-network:
