@@ -31,9 +31,6 @@ Update the `TODO` sections in the `.env` file given in the root directory of the
 ###############################################################################
 ####### TODO: Operators please update below values for your node ##############
 ###############################################################################
-# TODO: IP of your node
-NODE_HOSTNAME=localhost
-
 # TODO: Node Nginx config
 NODE_NGINX_CONF_HOST=../../resources/rate-limit-nginx.conf
 
@@ -53,9 +50,6 @@ NODE_CACHE_PATH_HOST=${USER_HOME}/mach-avs-operator-setup/resources/cache
 # TODO: Operators need to update this to their own keys
 NODE_ECDSA_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/opr.ecdsa.key.json
 NODE_BLS_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/opr.bls.key.json
-
-# TODO: The ip provider service used to obtain a node's public IP [seeip (default), ipify)
-NODE_PUBLIC_IP_PROVIDER=seeip
 
 # TODO: Operators need to add password to decrypt the above keys
 # If you have some special characters in password, make sure to use single quotes
@@ -82,7 +76,6 @@ Execute the following command to opt-in Mach AVS:
 You will need to specify the parameters in [.env](./.env.example) regarding:
 
 * `NODE_QUORUM_ID_LIST`: The quorums you are going to opt-in. It's required that you haven't already registered in any of the supplied quorums in this parameter.
-* `NODE_HOSTNAME`: The current IP of the node. The IP is required to be publicly reachable.
 
 This command also downloads the latest SRS points (~8 GB) if they don't exist and can take upto 10 minutes to complete for the first time based on your network speed.
 
