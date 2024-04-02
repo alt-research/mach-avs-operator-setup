@@ -42,7 +42,7 @@ services:
     container_name: ${MACH_VERIFIER_SERVICE_NAME}
     image: ${MACH_VERIFIER_IMAGE}
     ports:
-      - "${NODE_VERIFIER_METRICS_PORT}:${NODE_VERIFIER_METRICS_PORT}"
+      - "${NODE_VERIFIER_METRICS_PORT}:9094"
     networks:
       - alt-mach-operator-network
     volumes:
