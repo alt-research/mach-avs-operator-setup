@@ -103,7 +103,7 @@ services:
     image: grafana/grafana
     container_name: ${MONITOR_GRAFANA_NAME}
     ports:
-      - "13020:3000"
+      - "13000:3000"
     restart: unless-stopped
     environment:
       - GF_SECURITY_ADMIN_USER=admin
