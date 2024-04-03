@@ -1,6 +1,6 @@
 # Mach AVS for holesky testnet
 
-## Run Documentation
+## Operator Guide
 
 * [OP-Sepolia testnet](./op-sepolia/README.md)
 * [Cyber testnet](./cyber-testnet/README.md)
