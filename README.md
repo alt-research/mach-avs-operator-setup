@@ -2,4 +2,4 @@
 
 ## Run Documentation
 
-* [Holesky testnet](holesky/README.md)
+* [For Holesky testnet](holesky/mach-avs/README.md)

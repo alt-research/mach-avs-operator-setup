@@ -1,4 +1,4 @@
-# Installation of Mach AVS using docker
+# Installation of Mach AVS using docker for Op Sepolia testnet
 
 ## Prerequisites
 
