@@ -34,18 +34,18 @@ Update the `TODO` sections in the `.env` file given in the root directory of the
 # TODO: Set the metadata url for operator
 METADATA_URI=https://path/to/metadata.json
 
-# TODO: Operators need to update this to their own paths
+# Operators need to update this to their own paths
 USER_HOME=${HOME}
 EIGENLAYER_HOME=${USER_HOME}/.eigenlayer
 
 # TODO: Operators need to update this to their own keys
-NODE_ECDSA_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/holeskyt1.ecdsa.key.json
-NODE_BLS_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/holeskyt1.bls.key.json
+NODE_ECDSA_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/opr.ecdsa.key.json
+NODE_BLS_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/opr.bls.key.json
 
 # TODO: Operators need to add password to decrypt the above keys
 # If you have some special characters in password, make sure to use single quotes
-NODE_ECDSA_KEY_PASSWORD=''
-NODE_BLS_KEY_PASSWORD=''
+OPERATOR_ECDSA_KEY_PASSWORD=''
+OPERATOR_BLS_KEY_PASSWORD=''
 ```
 
 ## Opt-in into MACH AVS
@@ -69,6 +69,20 @@ Tear down container
 ```bash
 docker compose down
 ```
+
+Use the default monitoring:
+
+```bash
+docker compose --profile monitoring up
+```
+
+And use this to stop:
+
+```bash
+docker compose --profile monitoring down
+```
+
+If use `monitoring` profile, will add `grafana` to monitoring the service, the default port is `13000`. can access `localhost:13000`.
 
 ### Opt-out from MACH AVS
 
