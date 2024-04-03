@@ -1,4 +1,4 @@
-# Installation of Mach AVS using docker for Op Sepolia testnet
+# Installation of MACH AVS using docker for OP Sepolia testnet
 
 ## Prerequisites
 
@@ -11,9 +11,9 @@
 
 * Register your operator to EigenLayer using [EigenLayer CLI](https://github.com/Layr-Labs/eigenlayer-cli/blob/master/README.md)
 
-## Setup Mach AVS
+## Setup MACH AVS
 
-The easiest way to set up Mach AVS is to clone the repo and follow the instructions below.
+The easiest way to set up MACH AVS is to clone the repo and follow the instructions below.
 
 ### Clone repo
 
@@ -48,15 +48,15 @@ NODE_ECDSA_KEY_PASSWORD=''
 NODE_BLS_KEY_PASSWORD=''
 ```
 
-## Opt-in into Mach AVS
+## Opt-in into MACH AVS
 
-Execute the following command to opt-in Mach AVS:
+Execute the following command to opt-in MACH AVS:
 
 ```bash
 ./run.sh opt-in
 ```
 
-### Run Mach AVS
+### Run MACH AVS
 
 Execute the following command to start the docker containers:
 
@@ -70,7 +70,7 @@ Tear down container
 docker compose down
 ```
 
-### Opt-out from EigenDA
+### Opt-out from MACH AVS
 
 ```bash
 ./run.sh opt-out
