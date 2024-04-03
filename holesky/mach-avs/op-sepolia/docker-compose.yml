@@ -59,6 +59,7 @@ services:
     restart: unless-stopped
 
   node-exporter:
+    profiles: [monitoring]
     image: prom/node-exporter:latest
     container_name: ${MONITOR_NODE_EXPORTER_NAME}
     restart: unless-stopped
@@ -77,6 +78,7 @@ services:
       - alt-mach-operator-network
 
   prometheus:
+    profiles: [monitoring]
     image: prom/prometheus:latest
     env_file:
       - .env
@@ -96,6 +98,7 @@ services:
       - alt-mach-operator-network
 
   grafana:
+    profiles: [monitoring]
     image: grafana/grafana
     container_name: ${MONITOR_GRAFANA_NAME}
     ports:
