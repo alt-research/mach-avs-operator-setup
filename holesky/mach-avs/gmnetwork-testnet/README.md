@@ -1,4 +1,4 @@
-# Installation of Mach AVS using docker for GMChain testnet
+# Installation of Mach AVS using docker for GMNetwork testnet
 
 ## Prerequisites
 
