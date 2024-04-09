@@ -29,7 +29,6 @@ services:
     networks:
       - alt-mach-operator-network
     volumes:
-      - "${NODE_ECDSA_KEY_FILE_HOST}:/app/operator_keys/ecdsa_key.json:readonly"
       - "${NODE_BLS_KEY_FILE_HOST}:/app/operator_keys/bls_key.json:readonly"
       - "${NODE_CACHE_PATH_HOST}:/app/cache:rw"
       - "${NODE_LOG_PATH_HOST}:/app/logs:rw"

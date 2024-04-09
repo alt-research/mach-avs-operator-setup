@@ -1,7 +1,7 @@
 #!/bin/sh
 # Path: run.sh
 
-. ./.env
+. ./.env.opt
 
 # In all commands, We have to explicitly set the password again here because
 # when docker run loads the `.env` file, it keeps the quotes around the password
@@ -11,21 +11,19 @@
 optIn() {
   echo "keys: $NODE_ECDSA_KEY_FILE_HOST"
 
-  docker run --env-file .env \
+  docker run --env-file .env.opt \
   --rm \
   --volume "${NODE_ECDSA_KEY_FILE_HOST}":/app/operator_keys/ecdsa_key.json \
   --volume "${NODE_BLS_KEY_FILE_HOST}":/app/operator_keys/bls_key.json \
-  --volume "${NODE_LOG_PATH_HOST}":/app/logs:rw \
   public.ecr.aws/altlayer/mach-operator-tool:latest \
   register-operator-with-avs
 }
 
 optOut() {
-  docker run --env-file .env \
+  docker run --env-file .env.opt \
     --rm \
     --volume "${NODE_ECDSA_KEY_FILE_HOST}":/app/operator_keys/ecdsa_key.json \
     --volume "${NODE_BLS_KEY_FILE_HOST}":/app/operator_keys/bls_key.json \
-    --volume "${NODE_LOG_PATH_HOST}":/app/logs:rw \
     public.ecr.aws/altlayer/mach-operator-tool:latest \
     deregister-operator-with-avs
 }
