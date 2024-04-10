@@ -2,11 +2,11 @@
 This doc introduces how to build all components from source code.
 
 ## Architecture
-For architecture, please refer to [mach-avs#architecture](https://github.com/alt-research/mach-avs/blob/m2-dev/README.md#architecture)
+For the architecture, please refer to [mach-avs#architecture](https://github.com/alt-research/mach-avs/blob/m2-dev/README.md#architecture)
 
 ### BLS Signature Aggregation Mode
 
-From the architecture, we can know that for different goals, we need the following components:
+We require the following components:
 
 1. Run as operator
     1. mach-operator-node
@@ -31,7 +31,7 @@ Comming soon
 
     2. mach-operator-aggregator
 
-        > Notice: `mach-operator-aggregator` will migrate to other repo soon.
+        > Notice: `mach-operator-aggregator` will migrate to other respository soon.
 
     3. mach-avs-contracts
 
@@ -44,26 +44,26 @@ Comming soon
 ## Compile
 1. `mach-avs`
 
-    For mach-avs, the main language is `solidity` and `go`.
+    For mach-avs, it is mainly wrritten in `solidity` and `go`.
 
-    For the steps to compile this repo, please lookup the doc: [mach-avs#build-and-run](https://github.com/alt-research/mach-avs/blob/m2-dev/README.md#build-and-run)
+    For the steps to compile this repo, please check the doc: [mach-avs#build-and-run](https://github.com/alt-research/mach-avs/blob/m2-dev/README.md#build-and-run)
 
 2. `mach`
 
-    For mach, the main lanague is `rust`.
+    For mach, it is mainly written in `rust`.
 
-    For the steps to compile this repo, please lookup the doc: [mach#compile](https://github.com/alt-research/mach/blob/master/README.md#compile)
+    For the steps to compile this repo, please check [mach#compile](https://github.com/alt-research/mach/blob/master/README.md#compile)
 
 ## Run
 
-We list current suppoted technology stack at here:
+Supported technology stack:
 
 |                                       | Opstack(Optimism) | Orbit(arbitrum) |
 | :------------------------------------ | :---------------: | :-------------: |
 | BLS Signature Aggregation Mode        |   supported       |   comming soon  |
 | ZK Proof Mode                         |   comming soon    |   not supported |
 
-### 1. BLS & Opstack
+### 1. OP Stack (BLS Signature Aggregation Mode)
 
 #### Run as Operator
 
