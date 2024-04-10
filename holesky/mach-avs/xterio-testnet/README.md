@@ -32,24 +32,56 @@ Update the `TODO` sections in the `.env` file given in the root directory of the
 ###############################################################################
 ####### TODO: Operators please update below values for your node ##############
 ###############################################################################
+# TODO: Operators need to update this to their own paths
+USER_HOME=${HOME}
+EIGENLAYER_HOME=${USER_HOME}/.eigenlayer
+
+# TODO: Operators need to set it ecdsa address
+# can got by `eigenlayer operator keys list`, the address is in `Key Type: ECDSA`
+OPERATOR_ECDSA_ADDRESS=
+
+# TODO: Operators need to update this to their own keys
+NODE_BLS_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/opr.bls.key.json
+
+# TODO: Operators need to add password to decrypt the above keys
+# If your password contain space, / or $, please use single quote to 
+# encapsulate your password e.g 'mypassword /$'
+OPERATOR_BLS_KEY_PASSWORD=
+```
+
+Note OPERATOR_ECDSA_ADDRESS should be an address hex like `0xad6b95793dd4d2b8e184fb4666d1cfb14871a035`.
+
+## Opt-in into MACH AVS
+
+Opt-in or Opt-out script should use `.env.opt` as env file, first use:
+
+```bash
+cp .env.opt-example .env.opt
+```
+
+Update the `TODO` sections in the `.env.opt` file given in the root directory of the repository with your own details.
+
+```bash
+###############################################################################
+####### TODO: Operators please update below values for your node ##############
+###############################################################################
 # TODO: Set the metadata url for operator
 METADATA_URI=https://path/to/metadata.json
 
-# Operators need to update this to their own paths
+# TODO: Operators need to update this to their own paths
 USER_HOME=${HOME}
 EIGENLAYER_HOME=${USER_HOME}/.eigenlayer
 
 # TODO: Operators need to update this to their own keys
-NODE_ECDSA_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/opr.ecdsa.key.json
-NODE_BLS_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/opr.bls.key.json
+NODE_ECDSA_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/holeskyt1.ecdsa.key.json
+NODE_BLS_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/holeskyt1.bls.key.json
 
 # TODO: Operators need to add password to decrypt the above keys
-# If you have some special characters in password, make sure to use single quotes
-OPERATOR_ECDSA_KEY_PASSWORD=
+# If your password contain space, / or $, please use single quote to 
+# encapsulate your password e.g 'mypassword /$'
 OPERATOR_BLS_KEY_PASSWORD=
+OPERATOR_ECDSA_KEY_PASSWORD=
 ```
-
-## Opt-in into MACH AVS
 
 Execute the following command to opt-in MACH AVS:
 

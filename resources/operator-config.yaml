@@ -1,6 +1,0 @@
-# this sets the logger level (true = info, false = debug)
-production: true
-
-# this configs is fixed for the operator node in a docker.
-ecdsa_private_key_store_path: /app/operator_keys/ecdsa_key.json
-bls_private_key_store_path: /app/operator_keys/bls_key.json
