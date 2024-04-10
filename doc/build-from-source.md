@@ -35,24 +35,12 @@ Comming soon
 
     3. mach-avs-contracts
 
-2. mach: [https://github.com/alt-research/mach](https://github.com/alt-research/mach)
-
-    In this repo, we have following components:
-
-    1. mach-operator-verifier
-
 ## Compile
 1. `mach-avs`
 
     For mach-avs, it is mainly written in `solidity` and `go`.
 
     For the steps to compile this repo, please check [mach-avs#build-and-run](https://github.com/alt-research/mach-avs/blob/m2-dev/README.md#build-and-run)
-
-2. `mach`
-
-    For mach, it is mainly written in `rust`.
-
-    For the steps to compile this repo, please check [mach#compile](https://github.com/alt-research/mach/blob/master/README.md#compile)
 
 ## Run
 
@@ -88,9 +76,7 @@ For OP Stack based rollup, user needs to prepare the `genesis.json` file and the
 
 ##### Prepare
 
-1. mach-operator-verifier: `op-mach` can be found in the `mach` repo.
-
-2. mach-operator-node: `mach-operator` can be found in the `mach-avs` repo.
+1. mach-operator-node: `mach-operator` can be found in the `mach-avs` repo.
 
 ##### Run
 
@@ -100,11 +86,7 @@ For OP Stack based rollup, user needs to prepare the `genesis.json` file and the
 
         Please notice the `url` must be pointing to the RPC endpoint of this rollup.
 
-    2. Launch the `op-mach`
-
-        ```bash
-        ./op-mach -c <config.toml> --genesis-config <genesis.json>
-        ```
+    2. Run `mach-operator-verifier` please refer to the docker-compose file in `ethereum/mach-avs/optimism/docker-compose.yml`.
 
 2. Run `mach-operator-node`
 
