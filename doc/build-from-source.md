@@ -2,17 +2,17 @@
 This doc introduces how to build all components from source code.
 
 ## Architecture
-For the architecture, please refer to [mach-avs#architecture](https://github.com/alt-research/mach-avs/blob/m2-dev/README.md#architecture)
+For the overall architecture, please refer to [mach-avs#architecture](https://github.com/alt-research/mach-avs/blob/m2-dev/README.md#architecture)
 
 ### BLS Signature Aggregation Mode
 
-We require the following components:
+The following components is required
 
-1. Run as operator
+1. Run as an operator
     1. mach-operator-node
     2. mach-operator-verifier
 
-2. Run whole system in local testing
+2. Run whole system in local testnet
     1. mach-operator-node
     2. mach-operator-verifier
     3. mach-operator-aggregator
@@ -44,9 +44,9 @@ Comming soon
 ## Compile
 1. `mach-avs`
 
-    For mach-avs, it is mainly wrritten in `solidity` and `go`.
+    For mach-avs, it is mainly written in `solidity` and `go`.
 
-    For the steps to compile this repo, please check the doc: [mach-avs#build-and-run](https://github.com/alt-research/mach-avs/blob/m2-dev/README.md#build-and-run)
+    For the steps to compile this repo, please check [mach-avs#build-and-run](https://github.com/alt-research/mach-avs/blob/m2-dev/README.md#build-and-run)
 
 2. `mach`
 
@@ -63,7 +63,7 @@ Supported technology stack:
 | BLS Signature Aggregation Mode        |   supported       |   comming soon  |
 | ZK Proof Mode                         |   comming soon    |   not supported |
 
-### 1. OP Stack (BLS Signature Aggregation Mode)
+### OP Stack (BLS Signature Aggregation Mode)
 
 #### Run as Operator
 
