@@ -1,0 +1,123 @@
+services:
+  reverse-proxy:
+    image: nginx:latest
+    container_name: ${PROXY_SERVICE_NAME}
+    ports:
+      - "${NODE_API_PORT}:${NODE_API_PORT}"
+    volumes:
+      - "${NODE_NGINX_CONF_HOST}:/etc/nginx/templates/default.conf.template:ro"
+    depends_on:
+      - mach-operator-verifier
+    networks:
+      - alt-mach-operator-network
+    environment:
+      - "REQUEST_LIMIT=10r/s"
+      - "NODE_HOST=${MAIN_SERVICE_NAME}"
+      - "BURST_LIMIT=50"
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  mach-operator-node:
+    env_file:
+      - .env
+    container_name: ${MAIN_SERVICE_NAME}
+    image: ${MAIN_SERVICE_IMAGE}
+    expose:
+      - 9092
+    networks:
+      - alt-mach-operator-network
+    volumes:
+      - "${NODE_BLS_KEY_FILE_HOST}:/app/operator_keys/bls_key.json:readonly"
+      - "${NODE_CACHE_PATH_HOST}:/app/cache:rw"
+      - "${NODE_LOG_PATH_HOST}:/app/logs:rw"
+      - "${NODE_DB_PATH_HOST}:/data/operator/db:rw"
+    restart: unless-stopped
+
+  mach-operator-verifier:
+    env_file:
+      - .env
+    container_name: ${MACH_VERIFIER_SERVICE_NAME}
+    image: ${MACH_VERIFIER_IMAGE}
+    expose:
+      - 9094
+    networks:
+      - alt-mach-operator-network
+    volumes:
+      - "${MACH_CONFIG_PATH}:/app/config.toml:readonly"
+      - "${MACH_ALERT_CHAIN_GENESIS_PATH}:/app/genesis.json:readonly"
+      - "${NODE_CACHE_PATH_HOST}:/app/cache:rw"
+      - "${NODE_LOG_PATH_HOST}:/app/logs:rw"
+      - "${NODE_DB_PATH_HOST}:/data/operator/db:rw"
+    command:
+      - --config=/app/config.toml
+      - --genesis-config=/app/genesis.json
+    depends_on:
+      - mach-operator-node
+    restart: unless-stopped
+
+  node-exporter:
+    profiles: [monitoring]
+    image: prom/node-exporter:latest
+    container_name: ${MONITOR_NODE_EXPORTER_NAME}
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    expose:
+      - 9100
+    networks:
+      - alt-mach-operator-network
+
+  prometheus:
+    profiles: [monitoring]
+    image: prom/prometheus:latest
+    env_file:
+      - .env
+    container_name: ${MONITOR_PROMETHEUS_NAME}
+    restart: unless-stopped
+    volumes:
+      - "../../../resources/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    expose:
+      - 9090
+    networks:
+      - alt-mach-operator-network
+
+  grafana:
+    profiles: [monitoring]
+    image: grafana/grafana
+    container_name: ${MONITOR_GRAFANA_NAME}
+    ports:
+      - "13000:3000"
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+    volumes:
+      - "grafana_data:/var/lib/grafana"
+      - "../../../resources/monitoring/grafana:/etc/grafana/provisioning/datasources"
+      - "../../../resources/monitoring/dashboards:/etc/grafana/provisioning/dashboards"
+      - "../../../resources/monitoring/alerting:/etc/grafana/provisioning/alerting"
+    networks:
+      - alt-mach-operator-network
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+
+networks:
+  alt-mach-operator-network:
+    name: ${NETWORK_NAME}
