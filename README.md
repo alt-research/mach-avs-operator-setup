@@ -20,3 +20,7 @@ If you are a whitelisted operator and have questions regarding the setup process
 
 * [For Ethereum](ethereum/mach-avs/README.md)
 * [For Holesky testnet](holesky/mach-avs/README.md)
+
+## Build and run from source code
+
+[Please follow this doc to start](./doc/build-from-source.md)
