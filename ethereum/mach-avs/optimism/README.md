@@ -1,4 +1,4 @@
-# Installation of MACH AVS using docker for Xterio
+# Installation of MACH AVS using docker for Optimism
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ Clone this repo and execute the following commands:
 
 ```bash
 git https://github.com/alt-research/mach-avs-operator-setup.git
-cd mach-avs-operator-setup/mainnet/mach-avs/xterio
+cd mach-avs-operator-setup/ethereum/mach-avs/optimism
 cp .env.example .env
 ```
 

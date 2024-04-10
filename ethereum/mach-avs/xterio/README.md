@@ -1,4 +1,4 @@
-# Installation of MACH AVS using docker for OP Mainnet
+# Installation of MACH AVS using docker for Xterio
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ Clone this repo and execute the following commands:
 
 ```bash
 git https://github.com/alt-research/mach-avs-operator-setup.git
-cd mach-avs-operator-setup/mainnet/mach-avs/op-mainnet
+cd mach-avs-operator-setup/ethereum/mach-avs/xterio
 cp .env.example .env
 ```
 

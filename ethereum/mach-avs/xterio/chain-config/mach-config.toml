@@ -7,7 +7,7 @@
 # Optional, default value: false
 enable = true
 # The JSONRPC endpoint of Mach AVS Operator
-url = "http://mach-avs-mainnet-op-mainnet-operator-node:8901"
+url = "http://mach-avs-ethereum-xterio-operator-node:8901"
 
 ##############################################
 # Mach validator configuration               #
@@ -29,8 +29,8 @@ rpc_rate_ms = 100
 # Mach fetcher configuration                 #
 ##############################################
 [fetcher]
-# The JSONRPC endpoint of Optimism node
-url = "https://mainnet.optimism.io/"
+# The JSONRPC endpoint of xterio node
+url = "https://xterio.alt.technology/"
 # The interval (milliseconds) for fetching finalized/latest block of Optimism node
 # Optional, default value: 1000ms
 interval_ms = 4000
