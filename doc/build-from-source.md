@@ -76,15 +76,15 @@ For OP Stack based rollup, user needs to prepare the `genesis.json` file and the
         ```bash
         ./geth  dumpgenesis  --op-network=<network name, e.g. op-mainnet>  > genesis.json
         ```
-    2. If this rollup is not part of OP Superchain or unable to locate in [superchain-registry](https://github.com/ethereum-optimism/superchain-registry), please ask the project team for help to get the `genesis.json` file
+    2. If this rollup is not part of OP Superchain or cannot be located in [superchain-registry](https://github.com/ethereum-optimism/superchain-registry), please ask the project team for help to get the `genesis.json` file
 
     3. For `op-mach`, this `genesis.json` does not need to field `alloc`, thus, if the field is empty in this file is also ok.
 
 2. endpoint of this rollup:
 
-    1. The chain id from this endpoint must need to match the chain id in the `genesis.json`. i.e This endpoint must belong to this rollup.
+    1. The chain id from this endpoint must need to match the chain id in the `genesis.json`. i.e., This endpoint must belong to this rollup.
 
-    2. We highly recommend that you run `op-mach` and this rollup fullnode within the same network as it reduces network delays, especially when you set `safe` or `strict` in the `config.toml` file for `op-mach`. (refer to [mach#configuration](https://github.com/alt-research/mach/blob/master/README.md#configuration))
+    2. We highly recommend that you run `op-mach` and this rollup fullnode within the same network as it reduces network latency, especially when you set `safe` or `strict` in the `config.toml` file for `op-mach`. (refer to [mach#configuration](https://github.com/alt-research/mach/blob/master/README.md#configuration))
 
 ##### Prepare
 
@@ -114,7 +114,7 @@ For OP Stack based rollup, user needs to prepare the `genesis.json` file and the
 
 For the setup of operator, It is the same process as "Run as Operator"
 
-Before you run the operator, you need to deploy the contract and run an aggregator before.
+Before you run the operator, you need to deploy the contract and run tthe aggregator.
 
 1. Deploy the contracts in local network:
 
