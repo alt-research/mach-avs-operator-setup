@@ -86,7 +86,7 @@ For OP Stack based rollup, user needs to prepare the `genesis.json` file and the
 
         Please notice the `url` must be pointing to the RPC endpoint of this rollup.
 
-    2. run `mach-operator-verifier` please refer to the docker-compose file in `ethereum/mach-avs/optimism/docker-compose.yml`.
+    2. Run `mach-operator-verifier` please refer to the docker-compose file in `ethereum/mach-avs/optimism/docker-compose.yml`.
 
 2. Run `mach-operator-node`
 
