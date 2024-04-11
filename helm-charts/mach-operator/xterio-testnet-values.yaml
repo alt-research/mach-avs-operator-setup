@@ -41,8 +41,8 @@ configs:
     production: true
 
     # ETH RPC URL
-    eth_rpc_url: 
-    eth_ws_url: 
+    eth_rpc_url: https://ethereum-holesky-rpc.publicnode.com
+    eth_ws_url: wss://ethereum-holesky-rpc.publicnode.com
 
     # If you running this using eigenlayer CLI and the provided AVS packaging structure,
     # this should be /operator_keys/bls_key.json as the host path will be asked while running
@@ -54,7 +54,7 @@ configs:
 
     operator_ecdsa_address: 
 
-    aggregator_jsonrpc_server_ip_port_address: 
+    aggregator_jsonrpc_server_ip_port_address: https://xterio-testnet-aggregator.alt.technology
 
     # avs node spec compliance https://eigen.nethermind.io/docs/spec/intro
     eigen_metrics_ip_port_address: localhost:9090
@@ -65,18 +65,64 @@ configs:
     # EigenLayer Slasher contract address
 
     # This is the address of the slasher which is deployed in the anvil saved state
-    avs_registry_coordinator_address: 
-    operator_state_retriever_address: 
+    avs_registry_coordinator_address: 0xC452d0BcEE841EEd2AEe687495558e7a3C6010BE
+    operator_state_retriever_address: 0x222B52694Ab22AFc155B573baF52C1ed9a26b3f1
 
     operator_server_ip_port_addr: localhost:8091
 
     # the layer1 chain id the avs contracts in
-    layer1_chain_id: 
+    layer1_chain_id: 17000
 
     # the layer2 chain id
-    layer2_chain_id:
+    layer2_chain_id: 1637450
   genesis.json: |
-    {}
+    {
+      "config": {
+        "chainId": 1637450,
+        "homesteadBlock": 0,
+        "eip150Block": 0,
+        "eip155Block": 0,
+        "eip158Block": 0,
+        "byzantiumBlock": 0,
+        "constantinopleBlock": 0,
+        "petersburgBlock": 0,
+        "istanbulBlock": 0,
+        "muirGlacierBlock": 0,
+        "berlinBlock": 0,
+        "londonBlock": 0,
+        "arrowGlacierBlock": 0,
+        "grayGlacierBlock": 0,
+        "mergeNetsplitBlock": 0,
+        "shanghaiTime": 0,
+        "cancunTime": 0,
+        "bedrockBlock": 0,
+        "regolithTime": 0,
+        "canyonTime": 0,
+        "ecotoneTime": 0,
+        "terminalTotalDifficulty": 0,
+        "terminalTotalDifficultyPassed": true,
+        "optimism": {
+          "eip1559Elasticity": 10,
+          "eip1559Denominator": 50,
+          "eip1559DenominatorCanyon": 250
+        }
+      },
+      "nonce": "0x0",
+      "timestamp": "0x65f476ae",
+      "extraData": "0x424544524f434b",
+      "gasLimit": "0x1c9c380",
+      "difficulty": "0x0",
+      "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "coinbase": "0x4200000000000000000000000000000000000011",
+      "alloc": {},
+      "number": "0x0",
+      "gasUsed": "0x0",
+      "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "baseFeePerGas": "0x3b9aca00",
+      "excessBlobGas": "0x0",
+      "blobGasUsed": "0x0"
+    }
+
   mach-config.toml: |
     ##############################################
     # Mach alerter configuration                 #
@@ -110,7 +156,7 @@ configs:
     ##############################################
     [fetcher]
     # The JSONRPC endpoint of Optimism node
-    url = ""
+    url = "https://xterio-testnet.alt.technology/"
     # The interval (milliseconds) for fetching finalized/latest block of Optimism node
     # Optional, default value: 1000ms
     interval_ms = 4000
