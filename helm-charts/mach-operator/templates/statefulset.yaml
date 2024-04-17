@@ -4,11 +4,19 @@ metadata:
   name: {{ include "mach-operator.fullname" . }}
   labels:
     {{- include "mach-operator.labels" . | nindent 4 }}
-    {{- with .Values.labels }}
-    {{- toYaml . | nindent 4 }}
-    {{- end}}
+      {{- with .Values.labels }}
+      {{- toYaml . | nindent 4 }}
+      {{- end}}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 500Mi
   selector:
     matchLabels:
       {{- include "mach-operator.selectorLabels" . | nindent 6 }}
@@ -32,7 +40,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "mach-operator.fullname" . }}
+      serviceAccountName: {{ include "mach-operator.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -46,10 +54,14 @@ spec:
           image: "{{ .Values.node.image.repository }}:{{ .Values.node.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.node.image.pullPolicy }}
           ports:
-          {{- toYaml $.Values.ports | nindent 10 }}
+          {{- toYaml .Values.node.ports | nindent 10 }}
           {{- if .Values.lifecycleHooks }}
           lifecycle:
           {{- toYaml .Values.node.lifecycleHooks | nindent 12 }}
+          {{- end }}
+          {{- if .Values.node.startupProbe }}
+          startupProbe:
+          {{- toYaml .Values.node.startupProbe | nindent 12 }}
           {{- end }}
           {{- if .Values.node.livenessProbe }}
           livenessProbe:
@@ -62,14 +74,21 @@ spec:
           resources:
             {{- toYaml .Values.node.resources | nindent 12 }}
           volumeMounts:
-            - name: config
+            - name: bls-key
               mountPath: /app/operator_keys/bls_key.json
               subPath: bls_key.json
+              readOnly: true
             - name: config
               mountPath: /app/config/operator.yaml
               subPath: operator.yaml
+            - name: data
+              mountPath: /data
           env:
-            {{- toYaml .Values.node.env | nindent 12 }}
+            - name: OPERATOR_BLS_KEY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mach-operator.secretsName" . }}
+                  key: blsKeyPassword
         - name: verifier
           {{- with .Values.verifier.args }}
           args:
@@ -80,10 +99,14 @@ spec:
           image: "{{ .Values.verifier.image.repository }}:{{ .Values.verifier.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.verifier.image.pullPolicy }}
           ports:
-          {{- toYaml $.Values.ports | nindent 10 }}
+          {{- toYaml .Values.verifier.ports | nindent 10 }}
           {{- if .Values.lifecycleHooks }}
           lifecycle:
           {{- toYaml .Values.verifier.lifecycleHooks | nindent 12 }}
+          {{- end }}
+          {{- if .Values.verifier.startupProbe }}
+          startupProbe:
+          {{- toYaml .Values.verifier.startupProbe | nindent 12 }}
           {{- end }}
           {{- if .Values.verifier.livenessProbe }}
           livenessProbe:
@@ -102,13 +125,17 @@ spec:
             - name: config
               mountPath: /app/genesis.json
               subPath: genesis.json
+            - name: data
+              mountPath: /data
           env:
             {{- toYaml .Values.verifier.env | nindent 12 }}
       volumes:
         - name: config
           configMap:
             name: {{ include "mach-operator.fullname" . }}-config
-
+        - name: bls-key
+        secret:
+          secretName: {{ include "mach-operator.secretsName" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -1,7 +1,6 @@
 nameOverride: ""
 fullnameOverride: ""
 
-replicaCount: 1
 labels: {}
 
 imagePullSecrets: []
@@ -12,37 +11,29 @@ service:
     - name: node-api
       port: 9010
       protocol: TCP
-      targetPort: 9010
-    - name: eigen-metrics
-      port: 9090
-      protocol: TCP
-      targetPort: 9090
-    - name: verifier-metrics
-      port: 9094
-      protocol: TCP
-      targetPort: 9094
-ports:
-  - containerPort: 9010
-    protocol: TCP
-  - containerPort: 9090
-    protocol: TCP
-  - containerPort: 9094
-    protocol: TCP
+      targetPort: node-api
+
 ingress:
   annotations: {}
   enabled: false
   host: example.com
 
-configs:
-  bls_key.json: |
+secrets:
+  create: true
+  blsKeyJson: |
     {}
+  blsKeyPassword: ""
+
+
+configs:
+
   operator.yaml: |
     # this sets the logger level (true = info, false = debug)
     production: true
 
     # ETH RPC URL
-    eth_rpc_url: 
-    eth_ws_url: 
+    eth_rpc_url:
+    eth_ws_url:
 
     # If you running this using eigenlayer CLI and the provided AVS packaging structure,
     # this should be /operator_keys/bls_key.json as the host path will be asked while running
@@ -52,9 +43,9 @@ configs:
     # If you are running locally using go run main.go, this should be full path to your local bls key file
     bls_private_key_store_path: /app/operator_keys/bls_key.json
 
-    operator_ecdsa_address: 
+    operator_ecdsa_address:
 
-    aggregator_jsonrpc_server_ip_port_address: 
+    aggregator_jsonrpc_server_ip_port_address:
 
     # avs node spec compliance https://eigen.nethermind.io/docs/spec/intro
     eigen_metrics_ip_port_address: localhost:9090
@@ -65,13 +56,13 @@ configs:
     # EigenLayer Slasher contract address
 
     # This is the address of the slasher which is deployed in the anvil saved state
-    avs_registry_coordinator_address: 
-    operator_state_retriever_address: 
+    avs_registry_coordinator_address:
+    operator_state_retriever_address:
 
     operator_server_ip_port_addr: localhost:8091
 
     # the layer1 chain id the avs contracts in
-    layer1_chain_id: 
+    layer1_chain_id:
 
     # the layer2 chain id
     layer2_chain_id:
@@ -140,9 +131,16 @@ configs:
     # Optional, default value: false
     external = true
 node:
+  ports:
+    - containerPort: 9010
+      protocol: TCP
+      name: node-api
+    - containerPort: 9090
+      protocol: TCP
+      name: metrics
   image:
     repository: public.ecr.aws/altlayer/mach-operator
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     tag: "latest"
   resources:
     limits:
@@ -153,9 +151,12 @@ node:
       memory: 4Gi
   args:
     - --config=/app/config/operator.yaml
-  env:
-    - name: OPERATOR_BLS_KEY_PASSWORD
-      value: ""
+  startupProbe:
+    httpGet:
+      path: /metrics
+      port: 9094
+    initialDelaySeconds: 30
+    periodSeconds: 10
   readinessProbe:
     httpGet:
       path: /metrics
@@ -169,13 +170,17 @@ node:
     httpGet:
       path: /metrics
       port: 9090
-    initialDelaySeconds: 1200
+    initialDelaySeconds: 60
     periodSeconds: 30
     timeoutSeconds: 3
     failureThreshold: 2
     successThreshold: 1
 
 verifier:
+  ports:
+    - containerPort: 9094
+      protocol: TCP
+      name: metrics
   resources:
     limits:
       cpu: 4
@@ -185,7 +190,7 @@ verifier:
       memory: 4Gi
   image:
     repository: public.ecr.aws/altlayer/mach
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     tag: "latest"
   args:
     - --config=/app/mach-config.toml
@@ -193,6 +198,12 @@ verifier:
   env:
     - name: RUST_LOG
       value: "info"
+  startupProbe:
+    httpGet:
+      path: /metrics
+      port: 9094
+    initialDelaySeconds: 30
+    periodSeconds: 10
   readinessProbe:
     httpGet:
       path: /metrics
@@ -206,7 +217,7 @@ verifier:
     httpGet:
       path: /metrics
       port: 9094
-    initialDelaySeconds: 1200
+    initialDelaySeconds: 60
     periodSeconds: 30
     timeoutSeconds: 3
     failureThreshold: 2
