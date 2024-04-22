@@ -1,0 +1,285 @@
+nameOverride: ""
+fullnameOverride: ""
+
+replicaCount: 1
+labels: {}
+
+imagePullSecrets: []
+service:
+  annotations: {}
+  type: ClusterIP
+  ports:
+    - name: node-api
+      port: 9010
+      protocol: TCP
+      targetPort: 9010
+    - name: eigen-metrics
+      port: 9090
+      protocol: TCP
+      targetPort: 9090
+    - name: verifier-metrics
+      port: 9094
+      protocol: TCP
+      targetPort: 9094
+ports:
+  - containerPort: 9010
+    protocol: TCP
+  - containerPort: 9090
+    protocol: TCP
+  - containerPort: 9094
+    protocol: TCP
+ingress:
+  annotations: {}
+  enabled: false
+  host: example.com
+
+configs:
+  bls_key.json: |
+    {}
+  operator.yaml: |
+    # this sets the logger level (true = info, false = debug)
+    production: true
+
+    # ETH RPC URL
+    eth_rpc_url: https://ethereum-rpc.publicnode.com
+    eth_ws_url: https://ethereum-rpc.publicnode.com
+
+    # If you running this using eigenlayer CLI and the provided AVS packaging structure,
+    # this should be /operator_keys/bls_key.json as the host path will be asked while running
+    #
+    # We are using bn254 curve for bls keys
+    #
+    # If you are running locally using go run main.go, this should be full path to your local bls key file
+    bls_private_key_store_path: /app/operator_keys/bls_key.json
+
+    operator_ecdsa_address: 
+
+    aggregator_jsonrpc_server_ip_port_address: https://xterio-aggregator.alt.technology
+
+    # avs node spec compliance https://eigen.nethermind.io/docs/spec/intro
+    eigen_metrics_ip_port_address: localhost:9090
+    enable_metrics: true
+    node_api_ip_port_address: localhost:9010
+    enable_node_api: true
+
+    # EigenLayer Slasher contract address
+
+    # This is the address of the slasher which is deployed in the anvil saved state
+    avs_registry_coordinator_address: 0x6e32dD4169825337B54236b9355910b83E51e5a8
+    operator_state_retriever_address: 0x342D475f3ae36e0CFBF19c222f203048446955b6
+
+    operator_server_ip_port_addr: localhost:8091
+
+    # the layer1 chain id the avs contracts in
+    layer1_chain_id: 1
+
+    # the layer2 chain id
+    layer2_chain_id: 112358
+  genesis.json: |
+    {
+      "config": {
+        "chainId": 112358,
+        "homesteadBlock": 0,
+        "eip150Block": 0,
+        "eip155Block": 0,
+        "eip158Block": 0,
+        "byzantiumBlock": 0,
+        "constantinopleBlock": 0,
+        "petersburgBlock": 0,
+        "istanbulBlock": 0,
+        "muirGlacierBlock": 0,
+        "berlinBlock": 0,
+        "londonBlock": 0,
+        "arrowGlacierBlock": 0,
+        "grayGlacierBlock": 0,
+        "mergeNetsplitBlock": 0,
+        "shanghaiTime": 0,
+        "cancunTime": 0,
+        "bedrockBlock": 0,
+        "regolithTime": 0,
+        "canyonTime": 0,
+        "ecotoneTime": 0,
+        "terminalTotalDifficulty": 0,
+        "terminalTotalDifficultyPassed": true,
+        "optimism": {
+          "eip1559Elasticity": 6,
+          "eip1559Denominator": 50,
+          "eip1559DenominatorCanyon": 250
+        }
+      },
+      "nonce": "0x0",
+      "timestamp": "0x6603e4cf",
+      "extraData": "0x424544524f434b",
+      "gasLimit": "0x1c9c380",
+      "difficulty": "0x0",
+      "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "coinbase": "0x4200000000000000000000000000000000000011",
+      "alloc": {},
+      "number": "0x0",
+      "gasUsed": "0x0",
+      "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "baseFeePerGas": "0x3b9aca00",
+      "excessBlobGas": "0x0",
+      "blobGasUsed": "0x0"
+    }
+
+  mach-config.toml: |
+    ##############################################
+    # Mach alerter configuration                 #
+    ##############################################
+    [alerter]
+    # Only print the warning log if the alerter is disabled,
+    # Otherwise the alerts will be sent to the Mach AVS Operator
+    # Optional, default value: false
+    enable = true
+    # The JSONRPC endpoint of Mach AVS Operator
+    url = "http://127.0.0.1:8901"
+
+    ##############################################
+    # Mach validator configuration               #
+    ##############################################
+    [validator]
+    # Validate mode: "unsafe", "safe", "strict"
+    #
+    # "unsafe": Don't execute EVM, return ok directly.
+    # "safe": Execute EVM ，return ok regardless of whether it's right or wrong.
+    # "strict": Execute EVM, return the execution result.
+    #
+    # Optional, default value: "unsafe"
+    mode = "unsafe"
+    # The rate limit of rpc request
+    # Optional, default value: 100ms
+    rpc_rate_ms = 100
+
+    ##############################################
+    # Mach fetcher configuration                 #
+    ##############################################
+    [fetcher]
+    # The JSONRPC endpoint of Optimism node
+    url = "https://xterio.alt.technology/"
+    # The interval (milliseconds) for fetching finalized/latest block of Optimism node
+    # Optional, default value: 1000ms
+    interval_ms = 4000
+
+    ##############################################
+    # Mach scheduler configuration               #
+    ##############################################
+    [scheduler]
+    # The timeout waiting for verify result.
+    # If it times out, the verify result will be checked again in the next tick.
+    # Optional, default value: 100ms
+    verify_timeout_ms = 100
+
+    ##############################################
+    # Mach prometheus configuration              #
+    ##############################################
+    [prometheus]
+    # The TCP port of Prometheus exporter
+    # Optional, default value: 9094
+    port = 9094
+    # The HTTP URI path for fetching Prometheus metrics
+    # Optional, default value: "/metrics"
+    metrics_path = "/metrics"
+    # The indication if expose Prometheus exporter on all interfaces
+    # true: listen address = "0.0.0.0:port"
+    # false: listen address = "127.0.0.1:port"
+    # Optional, default value: false
+    external = true
+node:
+  image:
+    repository: public.ecr.aws/altlayer/mach-operator
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  resources:
+    limits:
+      cpu: 4
+      memory: 4Gi
+    requests:
+      cpu: 2
+      memory: 4Gi
+  args:
+    - --config=/app/config/operator.yaml
+  env:
+    - name: OPERATOR_BLS_KEY_PASSWORD
+      value: ""
+  readinessProbe:
+    httpGet:
+      path: /metrics
+      port: 9090
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 3
+    failureThreshold: 3
+    successThreshold: 1
+  livenessProbe:
+    httpGet:
+      path: /metrics
+      port: 9090
+    initialDelaySeconds: 1200
+    periodSeconds: 30
+    timeoutSeconds: 3
+    failureThreshold: 2
+    successThreshold: 1
+
+verifier:
+  resources:
+    limits:
+      cpu: 4
+      memory: 4Gi
+    requests:
+      cpu: 2
+      memory: 4Gi
+  image:
+    repository: public.ecr.aws/altlayer/mach
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  args:
+    - --config=/app/mach-config.toml
+    - --genesis-config=/app/genesis.json
+  env:
+    - name: RUST_LOG
+      value: "info"
+  readinessProbe:
+    httpGet:
+      path: /metrics
+      port: 9094
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 3
+    failureThreshold: 3
+    successThreshold: 1
+  livenessProbe:
+    httpGet:
+      path: /metrics
+      port: 9094
+    initialDelaySeconds: 1200
+    periodSeconds: 30
+    timeoutSeconds: 3
+    failureThreshold: 2
+    successThreshold: 1
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
