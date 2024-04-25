@@ -20,7 +20,7 @@ The easiest way to set up MACH AVS is to clone the repo and follow the instructi
 Clone this repo and execute the following commands:
 
 ```bash
-git https://github.com/alt-research/mach-avs-operator-setup.git
+git clone https://github.com/alt-research/mach-avs-operator-setup.git
 cd mach-avs-operator-setup/ethereum/mach-avs/dodochain
 cp .env.example .env
 ```
