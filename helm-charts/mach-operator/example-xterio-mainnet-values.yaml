@@ -1,80 +1,29 @@
-nameOverride: ""
-fullnameOverride: ""
-
-replicaCount: 1
-labels: {}
-
-imagePullSecrets: []
-service:
-  annotations: {}
-  type: ClusterIP
-  ports:
-    - name: node-api
-      port: 9010
-      protocol: TCP
-      targetPort: 9010
-    - name: eigen-metrics
-      port: 9090
-      protocol: TCP
-      targetPort: 9090
-    - name: verifier-metrics
-      port: 9094
-      protocol: TCP
-      targetPort: 9094
-ports:
-  - containerPort: 9010
-    protocol: TCP
-  - containerPort: 9090
-    protocol: TCP
-  - containerPort: 9094
-    protocol: TCP
-ingress:
-  annotations: {}
-  enabled: false
-  host: example.com
-
-configs:
-  bls_key.json: |
+secrets:
+  enabled: true
+  blsKeyJson: |
     {}
-  operator.yaml: |
-    # this sets the logger level (true = info, false = debug)
-    production: true
-
-    # ETH RPC URL
-    eth_rpc_url: https://ethereum-rpc.publicnode.com
-    eth_ws_url: https://ethereum-rpc.publicnode.com
-
-    # If you running this using eigenlayer CLI and the provided AVS packaging structure,
-    # this should be /operator_keys/bls_key.json as the host path will be asked while running
-    #
-    # We are using bn254 curve for bls keys
-    #
-    # If you are running locally using go run main.go, this should be full path to your local bls key file
-    bls_private_key_store_path: /app/operator_keys/bls_key.json
-
-    operator_ecdsa_address: 
-
-    aggregator_jsonrpc_server_ip_port_address: https://xterio-aggregator.alt.technology
-
-    # avs node spec compliance https://eigen.nethermind.io/docs/spec/intro
-    eigen_metrics_ip_port_address: localhost:9090
-    enable_metrics: true
-    node_api_ip_port_address: localhost:9010
-    enable_node_api: true
-
-    # EigenLayer Slasher contract address
-
-    # This is the address of the slasher which is deployed in the anvil saved state
-    avs_registry_coordinator_address: 0x6e32dD4169825337B54236b9355910b83E51e5a8
-    operator_state_retriever_address: 0x342D475f3ae36e0CFBF19c222f203048446955b6
-
-    operator_server_ip_port_addr: localhost:8091
-
-    # the layer1 chain id the avs contracts in
-    layer1_chain_id: 1
-
-    # the layer2 chain id
-    layer2_chain_id: 112358
+  blsKeyPassword: ""
+node:
+  env:
+    - name: OPERATOR_PRODUCTION
+      value: "true"
+    - name: ETH_RPC_URL
+      value: "https://ethereum-rpc.publicnode.com"
+    - name: ETH_WS_URL
+      value: "wss://ethereum-rpc.publicnode.com"
+    - name: OPERATOR_ECDSA_ADDRESS
+      value: "0x44220295991E4Fe4f3A4C5FE04E96B1b19960766"
+    - name: AGGREGATOR_JSONRPC_SERVER_URL
+      value: "https://xterio-aggregator.alt.technology"
+    - name: AVS_REGISTRY_COORDINATOR_ADDRESS
+      value: "0x6e32dD4169825337B54236b9355910b83E51e5a8"
+    - name: OPERATOR_STATE_RETRIEVER_ADDRESS
+      value: "0x342D475f3ae36e0CFBF19c222f203048446955b6"
+    - name: LAYER1_CHAIN_ID
+      value: "1"
+    - name: LAYER2_CHAIN_ID
+      value: "112358"
+configs:
   genesis.json: |
     {
       "config": {
@@ -175,8 +124,8 @@ configs:
     ##############################################
     [prometheus]
     # The TCP port of Prometheus exporter
-    # Optional, default value: 9094
-    port = 9094
+    # Optional, default value: 9715
+    port = 9715
     # The HTTP URI path for fetching Prometheus metrics
     # Optional, default value: "/metrics"
     metrics_path = "/metrics"
@@ -185,101 +134,3 @@ configs:
     # false: listen address = "127.0.0.1:port"
     # Optional, default value: false
     external = true
-node:
-  image:
-    repository: public.ecr.aws/altlayer/mach-operator
-    pullPolicy: IfNotPresent
-    tag: "latest"
-  resources:
-    limits:
-      cpu: 4
-      memory: 4Gi
-    requests:
-      cpu: 2
-      memory: 4Gi
-  args:
-    - --config=/app/config/operator.yaml
-  env:
-    - name: OPERATOR_BLS_KEY_PASSWORD
-      value: ""
-  readinessProbe:
-    httpGet:
-      path: /metrics
-      port: 9090
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 3
-    failureThreshold: 3
-    successThreshold: 1
-  livenessProbe:
-    httpGet:
-      path: /metrics
-      port: 9090
-    initialDelaySeconds: 1200
-    periodSeconds: 30
-    timeoutSeconds: 3
-    failureThreshold: 2
-    successThreshold: 1
-
-verifier:
-  resources:
-    limits:
-      cpu: 4
-      memory: 4Gi
-    requests:
-      cpu: 2
-      memory: 4Gi
-  image:
-    repository: public.ecr.aws/altlayer/mach
-    pullPolicy: IfNotPresent
-    tag: "latest"
-  args:
-    - --config=/app/mach-config.toml
-    - --genesis-config=/app/genesis.json
-  env:
-    - name: RUST_LOG
-      value: "info"
-  readinessProbe:
-    httpGet:
-      path: /metrics
-      port: 9094
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 3
-    failureThreshold: 3
-    successThreshold: 1
-  livenessProbe:
-    httpGet:
-      path: /metrics
-      port: 9094
-    initialDelaySeconds: 1200
-    periodSeconds: 30
-    timeoutSeconds: 3
-    failureThreshold: 2
-    successThreshold: 1
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
-  podAnnotations: {}
-
-  podSecurityContext: {}
-  # fsGroup: 2000
-
-  securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000

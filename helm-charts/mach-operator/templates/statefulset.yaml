@@ -78,9 +78,6 @@ spec:
               mountPath: /app/operator_keys/bls_key.json
               subPath: bls_key.json
               readOnly: true
-            - name: config
-              mountPath: /app/config/operator.yaml
-              subPath: operator.yaml
             - name: data
               mountPath: /data
           env:
@@ -89,7 +86,24 @@ spec:
                 secretKeyRef:
                   name: {{ include "mach-operator.secretsName" . }}
                   key: blsKeyPassword
+            - name: ENABLE_METRICS
+              value: "true"
+            - name: EIGEN_METRICS_URL
+              value: "0.0.0.0:9092"
+            - name: ENABLE_NODE_API
+              value: "true"
+            - name: NODE_API_URL
+              value: "0.0.0.0:9091"
+            - name: OPERATOR_SERVER_URL
+              value: "0.0.0.0:8901"
+            - name: BLS_PRIVATE_KEY_PATH
+              value: "/app/operator_keys/bls_key.json"
+            {{- toYaml .Values.node.env | nindent 12 }}
         - name: verifier
+          {{- with .Values.verifier.command }}
+          command:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.verifier.args }}
           args:
           {{- toYaml . | nindent 12 }}
