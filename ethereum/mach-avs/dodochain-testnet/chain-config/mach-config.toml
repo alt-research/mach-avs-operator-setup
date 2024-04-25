@@ -42,8 +42,7 @@ interval_ms = 4000
 # The JSONRPC endpoint of settlement layer node
 l1_url = "https://arbitrum-sepolia.alt.technology"
 # The bridge address on settlement layer
-# You could get this address from https://rollup-info.altlayer.io/public/orbit_demo_testnet
-l1_bridge_address = "0x154c820EBaA49D169c33252ECc735623f9d49F82"
+l1_bridge_address = "0xC0856971702b02A5576219540BD92DAE79a79288"
 # The interval (milliseconds) for fetching data of settlement layer node
 # Optional, default value: 4000ms
 interval_ms = 4000
