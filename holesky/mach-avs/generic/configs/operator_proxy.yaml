@@ -1,0 +1,8 @@
+method: "confirmAlert"
+
+generic_operator_addr: http://mach-avs-holesky-generic-operator:8091
+
+rpc_cfg:
+  rpc_addr: 0.0.0.0:8092
+  rpc_vhosts: ["*", "localhost"]
+  rpc_cors: ["*", "localhost"]

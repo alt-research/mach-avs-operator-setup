@@ -1,0 +1,61 @@
+##############################################
+# Mach alerter configuration                 #
+##############################################
+[alerter]
+# Only print the warning log if the alerter is disabled,
+# Otherwise the alerts will be sent to the Mach AVS Operator
+# Optional, default value: false
+enable = true
+# The JSONRPC endpoint of Mach AVS Operator
+url = "http://mach-avs-holesky-generic-operator-proxy:8902/op_sepolia/"
+
+##############################################
+# Mach validator configuration               #
+##############################################
+[validator]
+# Validate mode: "unsafe", "safe", "strict"
+#
+# "unsafe": Don't execute EVM, return ok directly.
+# "safe": Execute EVM ，return ok regardless of whether it's right or wrong.
+# "strict": Execute EVM, return the execution result.
+#
+# Optional, default value: "unsafe"
+mode = "unsafe"
+# The rate limit of rpc request
+# Optional, default value: 100ms
+rpc_rate_ms = 100
+
+##############################################
+# Mach fetcher configuration                 #
+##############################################
+[fetcher]
+# The JSONRPC endpoint of Optimism node
+url = "https://sepolia.optimism.io/"
+# The interval (milliseconds) for fetching finalized/latest block of Optimism node
+# Optional, default value: 1000ms
+interval_ms = 4000
+
+##############################################
+# Mach scheduler configuration               #
+##############################################
+[scheduler]
+# The timeout waiting for verify result.
+# If it times out, the verify result will be checked again in the next tick.
+# Optional, default value: 100ms
+verify_timeout_ms = 100
+
+##############################################
+# Mach prometheus configuration              #
+##############################################
+[prometheus]
+# The TCP port of Prometheus exporter
+# Optional, default value: 9094
+port = 9094
+# The HTTP URI path for fetching Prometheus metrics
+# Optional, default value: "/metrics"
+metrics_path = "/metrics"
+# The indication if expose Prometheus exporter on all interfaces
+# true: listen address = "0.0.0.0:port"
+# false: listen address = "127.0.0.1:port"
+# Optional, default value: false
+external = true

@@ -1,0 +1,36 @@
+[
+    {
+        "avs_name": "op_sepolia",
+        "methods": [
+            {
+                "method": "confirmAlert",
+                "quorum_numbers": [0],
+                "quorum_threshold_percentages": [66]
+            }
+        ],
+        "avs_registry_coordinator_address": "0x1eA7D160d325B289bF981e0D7aB6Bf3261a0FFf2",
+        "operator_state_retriever_address": "0xBE1c904525910fdB49dB33b4960DF9aC9f603dC7",
+        "aggregator_state_retriever_address": "0xAE9a4497dee2540DaF489BeddB0706128a99ec63",
+        "avs_contract_address": "0xAE9a4497dee2540DaF489BeddB0706128a99ec63",
+        "abi_path": "./abi/MachServiceManager.json",
+        "aggregator_state_retriever_abi_path": "./abi/MachServiceManager.json",
+        "operator_configs_path": "./operator_config.json"
+    },
+    {
+        "avs_name": "xterio_mach_avs",
+        "methods": [
+            {
+                "method": "confirmAlert",
+                "quorum_numbers": [0],
+                "quorum_threshold_percentages": [66]
+            }
+        ],
+        "avs_registry_coordinator_address": "0xC452d0BcEE841EEd2AEe687495558e7a3C6010BE",
+        "operator_state_retriever_address": "0x222B52694Ab22AFc155B573baF52C1ed9a26b3f1",
+        "aggregator_state_retriever_address": "0x648e5012D7B30755963755F7dd7Ff03e2F61bF8B",
+        "avs_contract_address": "0x648e5012D7B30755963755F7dd7Ff03e2F61bF8B",
+        "abi_path": "./abi/MachServiceManager.json",
+        "aggregator_state_retriever_abi_path": "./abi/MachServiceManager.json",
+        "operator_configs_path": "./operator_config.json"
+    }
+]
