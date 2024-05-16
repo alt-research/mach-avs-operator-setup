@@ -65,8 +65,8 @@ retry_wait_timout_ms = 10000
 ##############################################
 [prometheus]
 # The TCP port of Prometheus exporter
-# Optional, default value: 9715
-port = 9715
+# Optional, default value: 9094
+port = 9094
 # The HTTP URI path for fetching Prometheus metrics
 # Optional, default value: "/metrics"
 metrics_path = "/metrics"
