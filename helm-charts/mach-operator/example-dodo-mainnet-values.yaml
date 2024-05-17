@@ -3,6 +3,11 @@ secrets:
   blsKeyJson: |
     {}
   blsKeyPassword: ""
+verifier:
+  command:
+    - /usr/local/bin/arb-mach
+  args:
+    - --config=/app/mach-config.toml
 node:
   env:
     - name: OPERATOR_PRODUCTION
@@ -12,9 +17,9 @@ node:
     - name: ETH_WS_URL
       value: "wss://ethereum-rpc.publicnode.com"
     - name: OPERATOR_ECDSA_ADDRESS
-      value: "0x44220295991E4Fe4f3A4C5FE04E96B1b19960766"
+      value: ""
     - name: AGGREGATOR_JSONRPC_SERVER_URL
-      value: "https://xterio-aggregator.alt.technology"
+      value: "https://dodochain-aggregator.alt.technology"
     - name: AVS_REGISTRY_COORDINATOR_ADDRESS
       value: "0xCa7f0a65f82230691580F41876161E6282460F29"
     - name: OPERATOR_STATE_RETRIEVER_ADDRESS
@@ -22,39 +27,43 @@ node:
     - name: LAYER1_CHAIN_ID
       value: "1"
     - name: LAYER2_CHAIN_ID
-      value: "112358"
+      value: "53457"
+
 configs:
+  bls_key.json: |
+    {}
   genesis.json: |
     {
       "config": {
-        "chainId": 112358,
-        "homesteadBlock": 0,
-        "eip150Block": 0,
-        "eip155Block": 0,
-        "eip158Block": 0,
-        "byzantiumBlock": 0,
-        "constantinopleBlock": 0,
-        "petersburgBlock": 0,
-        "istanbulBlock": 0,
-        "muirGlacierBlock": 0,
-        "berlinBlock": 0,
-        "londonBlock": 0,
-        "arrowGlacierBlock": 0,
-        "grayGlacierBlock": 0,
-        "mergeNetsplitBlock": 0,
-        "shanghaiTime": 0,
-        "cancunTime": 0,
-        "bedrockBlock": 0,
-        "regolithTime": 0,
-        "canyonTime": 0,
-        "ecotoneTime": 0,
-        "terminalTotalDifficulty": 0,
-        "terminalTotalDifficultyPassed": true,
-        "optimism": {
-          "eip1559Elasticity": 6,
-          "eip1559Denominator": 50,
-          "eip1559DenominatorCanyon": 250
-        }
+          "homesteadBlock": 0,
+          "daoForkBlock": null,
+          "daoForkSupport": true,
+          "eip150Block": 0,
+          "eip150Hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "eip155Block": 0,
+          "eip158Block": 0,
+          "byzantiumBlock": 0,
+          "constantinopleBlock": 0,
+          "petersburgBlock": 0,
+          "istanbulBlock": 0,
+          "muirGlacierBlock": 0,
+          "berlinBlock": 0,
+          "londonBlock": 0,
+          "clique": {
+              "period": 0,
+              "epoch": 0
+          },
+          "arbitrum": {
+              "EnableArbOS": true,
+              "AllowDebugPrecompiles": false,
+              "DataAvailabilityCommittee": true,
+              "InitialArbOSVersion": 11,
+              "GenesisBlockNum": 0,
+              "MaxCodeSize": 24576,
+              "MaxInitCodeSize": 49152,
+              "InitialChainOwner": "0x66530799037b46913e52e9e0144D15ab6ed954f5"
+          },
+          "chainId": 53457
       },
       "nonce": "0x0",
       "timestamp": "0x6603e4cf",
@@ -70,8 +79,7 @@ configs:
       "baseFeePerGas": "0x3b9aca00",
       "excessBlobGas": "0x0",
       "blobGasUsed": "0x0"
-    }
-
+  }
   mach-config.toml: |
     ##############################################
     # Mach alerter configuration                 #
@@ -80,36 +88,48 @@ configs:
     # Only print the warning log if the alerter is disabled,
     # Otherwise the alerts will be sent to the Mach AVS Operator
     # Optional, default value: false
-    enable = true
+    enable = false
     # The JSONRPC endpoint of Mach AVS Operator
     url = "http://127.0.0.1:8901"
-
+    
     ##############################################
     # Mach validator configuration               #
     ##############################################
     [validator]
     # Validate mode: "unsafe", "safe", "strict"
     #
-    # "unsafe": Don't execute EVM, return ok directly.
-    # "safe": Execute EVM ，return ok regardless of whether it's right or wrong.
-    # "strict": Execute EVM, return the execution result.
+    # "unsafe": Don't validate block, return ok directly.
+    # "safe": Validate block, return ok regardless of whether it's right or wrong.
+    # "strict": Validate block, return the execution result.
     #
     # Optional, default value: "unsafe"
-    mode = "unsafe"
-    # The rate limit of rpc request
-    # Optional, default value: 100ms
-    rpc_rate_ms = 100
-
+    mode = "strict"
+    
     ##############################################
     # Mach fetcher configuration                 #
     ##############################################
     [fetcher]
-    # The JSONRPC endpoint of Optimism node
-    url = "https://xterio.alt.technology/"
-    # The interval (milliseconds) for fetching finalized/latest block of Optimism node
-    # Optional, default value: 1000ms
+    # The JSONRPC endpoint of Nitro node
+    #
+    # NOTE
+    # We need the Nitro node to enable `arbvalidator_validateMessageNumber` RPC if we use `safe` or `strict` validator mode
+    url = "https://dodochain-testnet-defensive.alt.technology"
+    # The interval (milliseconds) for fetching finalized/latest block of Nitro node
+    # Optional, default value: 4000ms
     interval_ms = 4000
-
+    
+    ##############################################
+    # Mach l1 fetcher configuration              #
+    ##############################################
+    [l1-fetcher]
+    # The JSONRPC endpoint of settlement layer node
+    l1_url = "https://arbitrum-sepolia.alt.technology"
+    # The bridge address on settlement layer
+    l1_bridge_address = "0x154c820EBaA49D169c33252ECc735623f9d49F82"
+    # The interval (milliseconds) for fetching data of settlement layer node
+    # Optional, default value: 4000ms
+    interval_ms = 4000
+    
     ##############################################
     # Mach scheduler configuration               #
     ##############################################
@@ -118,7 +138,11 @@ configs:
     # If it times out, the verify result will be checked again in the next tick.
     # Optional, default value: 100ms
     verify_timeout_ms = 100
-
+    # The timeout waiting for retry to validate.
+    # If it times out, the validation will be executed again in the next tick.
+    # Optional, default value: 10000ms
+    retry_wait_timout_ms = 10000
+    
     ##############################################
     # Mach prometheus configuration              #
     ##############################################
