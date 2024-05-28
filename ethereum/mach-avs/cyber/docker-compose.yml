@@ -49,10 +49,9 @@ services:
       - "${NODE_CACHE_PATH_HOST}:/app/cache:rw"
       - "${NODE_LOG_PATH_HOST}:/app/logs:rw"
       - "${NODE_DB_PATH_HOST}:/data/operator/db:rw"
-    entrypoint:
-      - /usr/local/bin/arb-mach
     command:
       - --config=/app/config.toml
+      - --genesis-config=/app/genesis.json
     depends_on:
       - mach-operator-node
     restart: unless-stopped
