@@ -5,14 +5,14 @@
 # Enabling the operator is a prerequisite for health check and alert messages to be sent to the Mach AVS operator,
 # Otherwise, only the warning logs will be printed.
 # Optional, default value: false
-enable = false
+enable = true
 # The JSONRPC endpoint of Mach AVS Operator
 # Optional, default value: "http://127.0.0.1:8901"
 url = "http://127.0.0.1:8093"
 # The alerts will be sent to the Mach AVS Operator only when both operator and alert are enabled,
 # Otherwise, only the warning log will be printed.
 # Optional, default value: false
-alert = false
+alert = true
 
 ##############################################
 # Mach validator configuration               #
