@@ -5,6 +5,7 @@ services:
     container_name: mach-avs-holesky-generic-operator
     image: ${MAIN_SERVICE_IMAGE}
     expose:
+      - 8901
       - 9092
     networks:
       - alt-mach-operator-network
@@ -21,6 +22,8 @@ services:
       - .env
     container_name: mach-avs-holesky-generic-operator-proxy
     image: ${MAIN_SERVICE_PROXY_IMAGE}
+    expose:
+      - 8902
     networks:
       - alt-mach-operator-network
     volumes:
@@ -42,10 +45,9 @@ services:
     networks:
       - alt-mach-operator-network
     volumes:
-      - "${MACH_OP_CONFIG_PATH}:/app/config.toml:readonly"
-      - "${MACH_OP_ALERT_CHAIN_GENESIS_PATH}:/app/genesis.json:readonly"
+      - "${MACH_CONFIG_ROOT_PATH}/op_sepolia/:/app/:readonly"
     command:
-      - --config=/app/config.toml
+      - --config=/app/mach-config.toml
       - --genesis-config=/app/genesis.json
     depends_on:
       - mach-generic-operator-node
@@ -62,11 +64,50 @@ services:
     networks:
       - alt-mach-operator-network
     volumes:
-      - "${MACH_XTERIO_CONFIG_PATH}:/app/config.toml:readonly"
-      - "${MACH_XTERIO_ALERT_CHAIN_GENESIS_PATH}:/app/genesis.json:readonly"
+      - "${MACH_CONFIG_ROOT_PATH}/xterio_testnet/:/app/:readonly"
     command:
-      - --config=/app/config.toml
+      - --config=/app/mach-config.toml
       - --genesis-config=/app/genesis.json
+    depends_on:
+      - mach-generic-operator-node
+      - mach-generic-operator-proxy
+    restart: unless-stopped
+
+  mach-dodo-testnet-operator-verifier:
+    env_file:
+      - .env
+    container_name: mach-avs-holesky-dodo-testnet-operator-verifier
+    image: ${MACH_VERIFIER_IMAGE}
+    expose:
+      - 9095
+    networks:
+      - alt-mach-operator-network
+    volumes:
+      - "${MACH_CONFIG_ROOT_PATH}/dodo_testnet/:/app/:readonly"
+    entrypoint:
+      - /usr/local/bin/arb-mach
+    command:
+      - --config=/app/mach-config.toml
+    depends_on:
+      - mach-generic-operator-node
+      - mach-generic-operator-proxy
+    restart: unless-stopped
+
+  mach-arbitrum-one-testnet-operator-verifier:
+    env_file:
+      - .env
+    container_name: mach-avs-holesky-arbitrum-one-testnet-operator-verifier
+    image: ${MACH_VERIFIER_IMAGE}
+    expose:
+      - 9095
+    networks:
+      - alt-mach-operator-network
+    volumes:
+      - "${MACH_CONFIG_ROOT_PATH}/arbitrum_one_testnet/:/app/:readonly"
+    entrypoint:
+      - /usr/local/bin/arb-mach
+    command:
+      - --config=/app/mach-config.toml
     depends_on:
       - mach-generic-operator-node
       - mach-generic-operator-proxy
