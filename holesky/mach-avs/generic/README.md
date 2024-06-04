@@ -1,3 +1,6 @@
+# Note: This is currently only available for internal testing
+
+
 # Installation of MACH AVS using docker for testnet
 
 ## Prerequisites
@@ -13,10 +16,10 @@
 
 Currently, this operator is for this testnets:
 
-- op-sepolia
-- xterio-testnet
-
-The operator should opt-in both this testnets 's avs contract.
+- OP-sepolia
+- Arbitrum One
+- Xterio testnet
+- DODOchain testnet
 
 ## Setup MACH AVS
 
