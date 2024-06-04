@@ -7,7 +7,7 @@
 # Optional, default value: false
 enable = false
 # The JSONRPC endpoint of Mach AVS Operator
-url = "http://127.0.0.1:8093"
+url = "http://mach-avs-ethereum-dodochain-testnet-operator-node:8091"
 
 ##############################################
 # Mach validator configuration               #
