@@ -8,7 +8,7 @@
 enable = true
 # The JSONRPC endpoint of Mach AVS Operator
 # Optional, default value: "http://127.0.0.1:8901"
-url = "http://127.0.0.1:8093"
+url = "http://mach-avs-ethereum-cyber-operator-node:8901"
 # The alerts will be sent to the Mach AVS Operator only when both operator and alert are enabled,
 # Otherwise, only the warning log will be printed.
 # Optional, default value: false
