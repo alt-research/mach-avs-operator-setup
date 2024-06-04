@@ -1,0 +1,14 @@
+method: "confirmAlert"
+
+generic_operator_addr: http://mach-avs-holesky-generic-operator:8901
+
+rpc_cfg:
+  rpc_addr: 0.0.0.0:8902
+  rpc_vhosts: ["*", "localhost"]
+  rpc_cors: ["*", "localhost"]
+
+chain_ids:
+  op_sepolia: 11155420
+  xterio_testnet: 1637450
+  dodo_testnet: 53457
+  arbitrum_one_testnet: 42161
