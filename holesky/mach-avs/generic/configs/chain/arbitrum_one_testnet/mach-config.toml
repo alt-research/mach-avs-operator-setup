@@ -50,7 +50,7 @@ max_fetcher = 20
 [scheduler]
 # The interval between verified blocks
 # Optional, default value: 1
-verify_block_interval = 400
+verify_block_interval = 500
 # The timeout waiting for verify result.
 # If it times out, the verify result will be checked again in the next tick.
 # Optional, default value: 10ms
