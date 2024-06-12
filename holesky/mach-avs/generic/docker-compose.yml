@@ -73,46 +73,6 @@ services:
       - mach-generic-operator-proxy
     restart: unless-stopped
 
-  mach-dodo-testnet-operator-verifier:
-    env_file:
-      - .env
-    container_name: mach-avs-holesky-dodo-testnet-operator-verifier
-    image: ${MACH_VERIFIER_IMAGE}
-    expose:
-      - 9095
-    networks:
-      - alt-mach-operator-network
-    volumes:
-      - "${MACH_CONFIG_ROOT_PATH}/dodo_testnet/:/app/:readonly"
-    entrypoint:
-      - /usr/local/bin/arb-mach
-    command:
-      - --config=/app/mach-config.toml
-    depends_on:
-      - mach-generic-operator-node
-      - mach-generic-operator-proxy
-    restart: unless-stopped
-
-  mach-arbitrum-one-testnet-operator-verifier:
-    env_file:
-      - .env
-    container_name: mach-avs-holesky-arbitrum-one-testnet-operator-verifier
-    image: ${MACH_VERIFIER_IMAGE}
-    expose:
-      - 9095
-    networks:
-      - alt-mach-operator-network
-    volumes:
-      - "${MACH_CONFIG_ROOT_PATH}/arbitrum_one_testnet/:/app/:readonly"
-    entrypoint:
-      - /usr/local/bin/arb-mach
-    command:
-      - --config=/app/mach-config.toml
-    depends_on:
-      - mach-generic-operator-node
-      - mach-generic-operator-proxy
-    restart: unless-stopped
-
   node-exporter:
     profiles: [monitoring]
     image: prom/node-exporter:latest
