@@ -1,6 +1,3 @@
-# Note: This is currently only available for internal testing
-
-
 # Installation of MACH AVS using docker for testnet
 
 ## Prerequisites
@@ -18,8 +15,6 @@ Currently, this operator is for this testnets:
 
 - OP-sepolia
 - Arbitrum One
-- Xterio testnet
-- DODOchain testnet
 
 ## Setup MACH AVS
 
