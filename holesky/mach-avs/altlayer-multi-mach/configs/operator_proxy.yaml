@@ -9,11 +9,8 @@ rpc_cfg:
 
 chain_ids:
   op_sepolia: 11155420
-  xterio_testnet: 1637450
-  dodo_testnet: 53457
   arbitrum_one_testnet: 42161
 
 work_proofs_mod:
   op_sepolia: 900
-  xterio_testnet: 1000
   arbitrum_one_testnet: 7000
