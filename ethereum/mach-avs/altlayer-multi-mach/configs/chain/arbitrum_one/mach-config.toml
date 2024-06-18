@@ -1,0 +1,81 @@
+##############################################
+# Mach operator configuration                 #
+##############################################
+[operator]
+# Enabling the operator is a prerequisite for health check and alert messages to be sent to the Mach AVS operator,
+# Otherwise, only the warning logs will be printed.
+# Optional, default value: false
+enable = true
+# The JSONRPC endpoint of Mach AVS Operator
+# Optional, default value: "http://127.0.0.1:8901"
+url = "http://mach-avs-ethereum-generic-operator-proxy:8902/arbitrum_one"
+# The alerts will be sent to the Mach AVS Operator only when both operator and alert are enabled,
+# Otherwise, only the warning log will be printed.
+# Optional, default value: false
+alert = true
+
+##############################################
+# Mach validator configuration               #
+##############################################
+[validator]
+# Validate mode: "unsafe", "safe", "strict"
+#
+# "unsafe": Don't validate block, return ok directly.
+# "safe": Validate block through log filter, return ok regardless of whether it's right or wrong.
+# "strict": Validate block through log filter, return the validation result.
+#
+# Optional, default value: "unsafe"
+mode = "strict"
+# The RESTFUL endpoint of log filter HTTP server
+# Optional, default value: "http://127.0.0.1:2333"
+url = "https://arbitrum-one-defensive.alt.technology/arbwatch"
+
+##############################################
+# Mach collector configuration               #
+##############################################
+[collector]
+# The JSONRPC endpoint of Nitro node
+# Optional, default value: "http://127.0.0.1:8094"
+url = "https://arbitrum-one-defensive.alt.technology"
+# The interval (milliseconds) for fetching finalized/latest block of Nitro node
+# Optional, default value: 4000ms
+interval_ms = 4000
+# The maximum number of blocks that can be fetched at one time
+# Optional, default value: 1
+max_fetcher = 20
+
+##############################################
+# Mach scheduler configuration               #
+##############################################
+[scheduler]
+# The interval between verified blocks
+# Optional, default value: 1
+verify_block_interval = 100
+# The timeout waiting for verify result.
+# If it times out, the verify result will be checked again in the next tick.
+# Optional, default value: 10ms
+verify_timeout_ms = 1
+# The timeout waiting for retry to validate.
+# If it times out, the validation will be executed again in the next tick.
+# Optional, default value: 10000ms
+retry_wait_timout_ms = 10000
+
+##############################################
+# Mach prometheus configuration              #
+##############################################
+[prometheus]
+# The TCP port of Prometheus exporter
+# Optional, default value: 9094
+port = 9094
+# The HTTP URI path for fetching Prometheus metrics
+# Path
+#  - `/:metrics` or `/:metrics/text`: text encoding of metrics
+#  - `/:metrics/protobuf`: protobuf encoding of metrics
+#
+# Optional, default value: "/metrics"
+metrics_path = "/metrics"
+# The indication if expose Prometheus exporter on all interfaces
+# true: listen address = "0.0.0.0:port"
+# false: listen address = "127.0.0.1:port"
+# Optional, default value: false
+external = false
