@@ -12,10 +12,10 @@
                 ]
             }
         ],
-        "avs_registry_coordinator_address": "0x1eA7D160d325B289bF981e0D7aB6Bf3261a0FFf2",
-        "operator_state_retriever_address": "0xBE1c904525910fdB49dB33b4960DF9aC9f603dC7",
-        "aggregator_state_retriever_address": "0xAE9a4497dee2540DaF489BeddB0706128a99ec63",
-        "avs_contract_address": "0xAE9a4497dee2540DaF489BeddB0706128a99ec63",
+        "avs_registry_coordinator_address": "0x561be1AB42170a19f31645F774e6e3862B2139AA",
+        "operator_state_retriever_address": "0x8Ad765474f86FFb0A742041427383b524192b71f",
+        "aggregator_state_retriever_address": "0x71a77037870169d47aad6c2C9360861A4C0df2bF",
+        "avs_contract_address": "0x71a77037870169d47aad6c2C9360861A4C0df2bF",
         "abi_path": "./abi/MachServiceManager.json",
         "aggregator_state_retriever_abi_path": "./abi/MachServiceManager.json"
     },
@@ -32,10 +32,10 @@
                 ]
             }
         ],
-        "avs_registry_coordinator_address": "0x1eA7D160d325B289bF981e0D7aB6Bf3261a0FFf2",
-        "operator_state_retriever_address": "0xBE1c904525910fdB49dB33b4960DF9aC9f603dC7",
-        "aggregator_state_retriever_address": "0xAE9a4497dee2540DaF489BeddB0706128a99ec63",
-        "avs_contract_address": "0xAE9a4497dee2540DaF489BeddB0706128a99ec63",
+        "avs_registry_coordinator_address": "0x561be1AB42170a19f31645F774e6e3862B2139AA",
+        "operator_state_retriever_address": "0x8Ad765474f86FFb0A742041427383b524192b71f",
+        "aggregator_state_retriever_address": "0x71a77037870169d47aad6c2C9360861A4C0df2bF",
+        "avs_contract_address": "0x71a77037870169d47aad6c2C9360861A4C0df2bF",
         "abi_path": "./abi/MachServiceManager.json",
         "aggregator_state_retriever_abi_path": "./abi/MachServiceManager.json"
     }

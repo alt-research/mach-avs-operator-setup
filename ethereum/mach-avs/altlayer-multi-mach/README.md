@@ -13,7 +13,7 @@
 
 Currently, this operator is for this testnets:
 
-- OP-sepolia
+- Optimism
 - Arbitrum One
 
 ## Setup MACH AVS
@@ -26,7 +26,7 @@ Clone this repo and execute the following commands:
 
 ```bash
 git https://github.com/alt-research/mach-avs-operator-setup.git
-cd mach-avs-operator-setup/holesky/mach-avs/generic
+cd mach-avs-operator-setup/ethereum/mach-avs/altlayer-multi-mach/
 cp .env.example .env
 ```
 
