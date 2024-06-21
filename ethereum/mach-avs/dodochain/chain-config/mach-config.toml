@@ -20,7 +20,7 @@ url = "http://mach-avs-ethereum-dodochain-operator-node:8901"
 # "strict": Validate block, return the execution result.
 #
 # Optional, default value: "unsafe"
-mode = "strict"
+mode = "unsafe"
 
 ##############################################
 # Mach fetcher configuration                 #

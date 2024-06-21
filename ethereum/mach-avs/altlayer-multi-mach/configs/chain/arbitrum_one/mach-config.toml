@@ -25,7 +25,7 @@ alert = true
 # "strict": Validate block through log filter, return the validation result.
 #
 # Optional, default value: "unsafe"
-mode = "strict"
+mode = "unsafe"
 # The RESTFUL endpoint of log filter HTTP server
 # Optional, default value: "http://127.0.0.1:2333"
 url = "https://arbitrum-one-defensive.alt.technology/arbwatch"

@@ -25,7 +25,7 @@ alert = true
 # "strict": Validate block, return the validation result.
 #
 # Optional, default value: "unsafe"
-mode = "strict"
+mode = "unsafe"
 # The rate limit of rpc request
 # Optional, default value: 100ms
 rpc_rate_ms = 100
