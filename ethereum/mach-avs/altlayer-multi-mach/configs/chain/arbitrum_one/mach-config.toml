@@ -26,9 +26,6 @@ alert = true
 #
 # Optional, default value: "unsafe"
 mode = "unsafe"
-# The RESTFUL endpoint of log filter HTTP server
-# Optional, default value: "http://127.0.0.1:2333"
-url = "https://arbitrum-one-defensive.alt.technology/arbwatch"
 
 ##############################################
 # Mach collector configuration               #
@@ -36,7 +33,7 @@ url = "https://arbitrum-one-defensive.alt.technology/arbwatch"
 [collector]
 # The JSONRPC endpoint of Nitro node
 # Optional, default value: "http://127.0.0.1:8094"
-url = "https://arbitrum-one-defensive.alt.technology"
+url = "https://arbitrum-one-rpc.publicnode.com"
 # The interval (milliseconds) for fetching finalized/latest block of Nitro node
 # Optional, default value: 4000ms
 interval_ms = 4000
