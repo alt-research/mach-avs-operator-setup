@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ include "multi-mach-verifier.fullname" . }}
+  labels:
+    app: {{ include "multi-mach-verifier.fullname" . }}
+
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "multi-mach-verifier.fullname" . }}
+  podMetricsEndpoints:
+    - port: metrics

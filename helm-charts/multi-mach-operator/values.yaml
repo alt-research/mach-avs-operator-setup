@@ -1,0 +1,141 @@
+nameOverride: ""
+fullnameOverride: ""
+
+labels: {}
+
+imagePullSecrets: []
+service:
+  annotations: {}
+  type: ClusterIP
+  ports:
+    - name: node-api
+      port: 9091
+      protocol: TCP
+      targetPort: node-api
+    - name: proxy-api
+      port: 8902
+      protocol: TCP
+      targetPort: proxy-api
+ingress:
+  annotations: {}
+  enabled: false
+  host: example.com
+
+secrets:
+  create: true
+  blsKeyJson: |
+    {}
+  blsKeyPassword: ""
+
+
+configs:
+  avs_configs.json: |
+    {}
+  operator_proxy.yaml: |
+    {}
+  MachServiceManager.json: |
+    {}
+node:
+  args:
+    - --avs-config=/app/configs/avs_configs.json
+  ports:
+    - containerPort: 9091
+      protocol: TCP
+      name: node-api
+    - containerPort: 9092
+      protocol: TCP
+      name: metrics
+  image:
+    repository: public.ecr.aws/altlayer/alt-generic-operator
+    pullPolicy: Always
+    tag: "latest"
+  resources:
+    limits:
+      cpu: 4
+      memory: 4Gi
+    requests:
+      cpu: 2
+      memory: 4Gi
+  startupProbe:
+    httpGet:
+      path: /metrics
+      port: 9092
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /metrics
+      port: 9092
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 3
+    failureThreshold: 3
+    successThreshold: 1
+  livenessProbe:
+    httpGet:
+      path: /metrics
+      port: 9092
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    timeoutSeconds: 3
+    failureThreshold: 2
+    successThreshold: 1
+  env:
+    - name: OPERATOR_PRODUCTION
+      value: "true"
+    - name: ETH_RPC_URL
+      value: ""
+    - name: ETH_WS_URL
+      value: ""
+    - name: OPERATOR_ECDSA_ADDRESS
+      value: ""
+    - name: AGGREGATOR_JSONRPC_SERVER_URL
+      value: ""
+    - name: AVS_REGISTRY_COORDINATOR_ADDRESS
+      value: ""
+    - name: OPERATOR_STATE_RETRIEVER_ADDRESS
+      value: ""
+    - name: LAYER1_CHAIN_ID
+      value: ""
+    - name: LAYER2_CHAIN_ID
+      value: ""
+    - name: BLS_PRIVATE_KEY_PATH
+      value: "/app/operator_keys/bls_key.json"
+proxy:
+  image:
+    repository: public.ecr.aws/altlayer/multi-mach-operator-proxy
+    pullPolicy: Always
+    tag: "latest"
+  ports:
+    - containerPort: 8902
+      protocol: TCP
+      name: proxy-api
+  args:
+    - --config=/app/configs/operator_proxy.yaml
+    - --avs-config=/app/configs/avs_configs.json
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000

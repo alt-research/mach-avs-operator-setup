@@ -1,0 +1,177 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "multi-mach-operator.fullname" . }}
+  labels:
+    {{- include "multi-mach-operator.labels" . | nindent 4 }}
+    {{- with .Values.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end}}
+spec:
+  replicas: 1
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 500Mi
+  selector:
+    matchLabels:
+      {{- include "multi-mach-operator.selectorLabels" . | nindent 6 }}
+        {{- with .Values.labels }}
+        {{- toYaml . | nindent 6 }}
+        {{- end}}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ include "multi-mach-operator.fullname" . }}
+        {{- include "multi-mach-operator.selectorLabels" . | nindent 8 }}
+        {{- with .Values.labels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end}}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "multi-mach-operator.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: node
+          {{- with .Values.node.command }}
+          command:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.node.args }}
+          args:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.node.image.repository }}:{{ .Values.node.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.node.image.pullPolicy }}
+          ports:
+          {{- toYaml .Values.node.ports | nindent 10 }}
+          {{- if .Values.lifecycleHooks }}
+          lifecycle:
+          {{- toYaml .Values.node.lifecycleHooks | nindent 12 }}
+          {{- end }}
+          {{- if .Values.node.startupProbe }}
+          startupProbe:
+          {{- toYaml .Values.node.startupProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.node.livenessProbe }}
+          livenessProbe:
+            {{- toYaml .Values.node.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.node.readinessProbe }}
+          readinessProbe:
+            {{- toYaml .Values.node.readinessProbe | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.node.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /app/configs/abi/MachServiceManager.json
+              subPath: MachServiceManager.json
+            - name: bls-key
+              mountPath: /app/operator_keys/bls_key.json
+              subPath: bls_key.json
+              readOnly: true
+            - name: config
+              mountPath: /app/configs/avs_configs.json
+              subPath: avs_configs.json
+            - name: data
+              mountPath: /data
+          env:
+            - name: OPERATOR_BLS_KEY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "multi-mach-operator.secretsName" . }}
+                  key: blsKeyPassword
+            - name: ENABLE_METRICS
+              value: "true"
+            - name: EIGEN_METRICS_URL
+              value: "0.0.0.0:9092"
+            - name: ENABLE_NODE_API
+              value: "true"
+            - name: NODE_API_URL
+              value: "0.0.0.0:9091"
+            - name: OPERATOR_SERVER_URL
+              value: "0.0.0.0:8901"
+            - name: BLS_PRIVATE_KEY_PATH
+              value: "/app/operator_keys/bls_key.json"
+            {{- toYaml .Values.node.env | nindent 12 }}
+        - name: proxy
+          {{- with .Values.proxy.command }}
+          command:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.proxy.args }}
+          args:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.proxy.image.pullPolicy }}
+          ports:
+          {{- toYaml .Values.proxy.ports | nindent 10 }}
+          {{- if .Values.lifecycleHooks }}
+          lifecycle:
+          {{- toYaml .Values.proxy.lifecycleHooks | nindent 12 }}
+          {{- end }}
+          {{- if .Values.proxy.startupProbe }}
+          startupProbe:
+          {{- toYaml .Values.proxy.startupProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.proxy.livenessProbe }}
+          livenessProbe:
+            {{- toYaml .Values.proxy.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.proxy.readinessProbe }}
+          readinessProbe:
+            {{- toYaml .Values.proxy.readinessProbe | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.proxy.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /app/configs/avs_configs.json
+              subPath: avs_configs.json
+            - name: config
+              mountPath: /app/configs/operator_proxy.yaml
+              subPath: operator_proxy.yaml
+            - name: config
+              mountPath: /app/configs/abi/MachServiceManager.json
+              subPath: MachServiceManager.json
+            - name: data
+              mountPath: /data
+          env:
+            {{- toYaml .Values.proxy.env | nindent 12 }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "multi-mach-operator.fullname" . }}-config
+        - name: bls-key
+          secret:
+            secretName: {{ include "multi-mach-operator.secretsName" . }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
