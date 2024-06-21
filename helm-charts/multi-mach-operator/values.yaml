@@ -48,7 +48,7 @@ node:
   image:
     repository: public.ecr.aws/altlayer/alt-generic-operator
     pullPolicy: Always
-    tag: "latest"
+    tag: "v0.2.1"
   resources:
     limits:
       cpu: 4
@@ -103,9 +103,9 @@ node:
       value: "/app/operator_keys/bls_key.json"
 proxy:
   image:
-    repository: public.ecr.aws/altlayer/multi-mach-operator-proxy
+    repository: public.ecr.aws/altlayer/mach-operator-proxy
     pullPolicy: Always
-    tag: "latest"
+    tag: "v0.2.3"
   ports:
     - containerPort: 8902
       protocol: TCP

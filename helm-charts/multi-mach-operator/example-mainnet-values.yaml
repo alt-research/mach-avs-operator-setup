@@ -1,18 +1,10 @@
 proxy:
-  image:
-    repository: public.ecr.aws/altlayer/mach-operator-proxy
-    pullPolicy: Always
-    tag: "v0.2.3"
   env:
     - name: ETH_RPC_URL
       value: "https://ethereum-rpc.publicnode.com"
     - name: ETH_WS_URL
       value: "wss://ethereum-rpc.publicnode.com"
 node:
-  image:
-    repository: public.ecr.aws/altlayer/alt-generic-operator
-    pullPolicy: Always
-    tag: "v0.2.1"
   env:
     - name: OPERATOR_PRODUCTION
       value: "true"

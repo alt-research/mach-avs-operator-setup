@@ -97,7 +97,7 @@ verifier:
   image:
     repository: public.ecr.aws/altlayer/mach
     pullPolicy: Always
-    tag: "latest"
+    tag: "v0.2.1"
   args:
     - --config=/app/mach-config.toml
     - --genesis-config=/app/genesis.json
