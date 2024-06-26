@@ -1,3 +1,4 @@
+name: op-sepolia
 services:
   reverse-proxy:
     image: nginx:latest
