@@ -1,6 +1,6 @@
 method: "confirmAlert"
 
-generic_operator_addr: http://mach-avs-holesky-generic-operator:8901
+generic_operator_addr: http://mach-avs-ethereum-generic-operator:8901
 
 rpc_cfg:
   rpc_addr: 0.0.0.0:8902

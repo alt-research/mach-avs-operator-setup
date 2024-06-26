@@ -105,8 +105,8 @@ USER_HOME=${HOME}
 EIGENLAYER_HOME=${USER_HOME}/.eigenlayer
 
 # TODO: Operators need to update this to their own keys
-NODE_ECDSA_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/holeskyt1.ecdsa.key.json
-NODE_BLS_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/holeskyt1.bls.key.json
+NODE_ECDSA_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/ethereumt1.ecdsa.key.json
+NODE_BLS_KEY_FILE_HOST=${EIGENLAYER_HOME}/operator_keys/ethereumt1.bls.key.json
 
 # TODO: Operators need to add password to decrypt the above keys
 # If your password contain space, / or $, please use single quote to 
