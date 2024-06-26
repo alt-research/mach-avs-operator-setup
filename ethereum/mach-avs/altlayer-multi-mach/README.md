@@ -92,7 +92,7 @@ cp .env.opt-example .env.opt
 ```
 
 Update the `TODO` sections in the `.env.opt` file given in the root directory of the repository with your own details.
-1``1`1````````````````````````````````````````
+
 ```bash
 ###############################################################################
 ####### TODO: Operators please update below values for your node ##############
