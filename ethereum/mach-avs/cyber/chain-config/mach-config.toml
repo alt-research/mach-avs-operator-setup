@@ -41,7 +41,7 @@ rpc_rate_ms = 100
 # If you have run the rollup fullnode by yourself, we highly recommend you to let the `op-mach` run in the LAN with the fullnode,
 # to reduce network latency between fullnode and `op-mach`.
 # Optional, default value: "http://127.0.0.1:8094"
-url = "https://cyber.alt.technology/"
+url = "https://rpc.cyber.co"
 # The interval (milliseconds) for fetching finalized/latest block of Optimism node
 # Optional, default value: 4000ms
 interval_ms = 4000

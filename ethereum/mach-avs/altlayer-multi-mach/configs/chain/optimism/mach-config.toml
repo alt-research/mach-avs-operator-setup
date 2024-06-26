@@ -8,7 +8,7 @@
 enable = true
 # The JSONRPC endpoint of Mach AVS Operator
 # Optional, default value: "http://127.0.0.1:8901"
-url = "http://mach-avs-holesky-generic-operator-proxy:8902/op_sepolia"
+url = "http://mach-avs-ethereum-generic-operator-proxy:8902/optimism"
 # The alerts will be sent to the Mach AVS Operator only when both operator and alert are enabled,
 # Otherwise, only the warning log will be printed.
 # Optional, default value: false
@@ -41,7 +41,7 @@ rpc_rate_ms = 100
 # If you have run the rollup fullnode by yourself, we highly recommend you to let the `op-mach` run in the LAN with the fullnode,
 # to reduce network latency between fullnode and `op-mach`.
 # Optional, default value: "http://127.0.0.1:8094"
-url = "https://sepolia.optimism.io/"
+url = "https://optimism.alt.technology/"
 # The interval (milliseconds) for fetching finalized/latest block of Optimism node
 # Optional, default value: 4000ms
 interval_ms = 4000
@@ -55,7 +55,7 @@ max_fetcher = 1
 [scheduler]
 # The interval between verified blocks
 # Optional, default value: 1
-verify_block_interval = 50
+verify_block_interval = 1
 # The timeout waiting for verify result.
 # If it times out, the verify result will be checked again in the next tick.
 # Optional, default value: 10ms
@@ -73,7 +73,6 @@ retry_wait_timout_ms = 10000
 # Optional, default value: 9094
 port = 9094
 # The HTTP URI path for fetching Prometheus metrics
-#
 # Path
 #  - `/:metrics` or `/:metrics/text`: text encoding of metrics
 #  - `/:metrics/protobuf`: protobuf encoding of metrics
