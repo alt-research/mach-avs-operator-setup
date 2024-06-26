@@ -123,7 +123,7 @@ configs:
     ##############################################
     [l1-fetcher]
     # The JSONRPC endpoint of settlement layer node
-    l1_url = "https://arbitrum-sepolia.alt.technology"
+    l1_url = "https://arbitrum-sepolia.blockpi.network/v1/rpc/public"
     # The bridge address on settlement layer
     l1_bridge_address = "0xC0856971702b02A5576219540BD92DAE79a79288"
     # The interval (milliseconds) for fetching data of settlement layer node

@@ -40,7 +40,7 @@ interval_ms = 4000
 ##############################################
 [l1-fetcher]
 # The JSONRPC endpoint of settlement layer node
-l1_url = "https://arbitrum-sepolia.alt.technology"
+l1_url = "https://arbitrum-sepolia.blockpi.network/v1/rpc/public"
 # The bridge address on settlement layer
 # You could get this address from https://rollup-info.altlayer.io/public/orbit_demo_testnet
 l1_bridge_address = "0x154c820EBaA49D169c33252ECc735623f9d49F82"
