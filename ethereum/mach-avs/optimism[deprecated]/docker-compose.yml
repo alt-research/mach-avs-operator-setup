@@ -1,3 +1,4 @@
+name: optimism
 services:
   reverse-proxy:
     image: nginx:latest
