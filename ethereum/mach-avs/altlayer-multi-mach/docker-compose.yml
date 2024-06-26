@@ -57,7 +57,7 @@ services:
   mach-arbitrum-one-operator-verifier:
     env_file:
       - .env
-    container_name: mach-avs-holesky-arbitrum-one-operator-verifier
+    container_name: mach-avs-ethereum-arbitrum-one-operator-verifier
     image: ${MACH_VERIFIER_IMAGE}
     expose:
       - 9095
