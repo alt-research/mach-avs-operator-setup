@@ -1,0 +1,22 @@
+[
+    {
+        "avs_name": "gmnetwork",
+        "methods": [
+            {
+                "method": "confirmAlert",
+                "quorum_numbers": [
+                    0
+                ],
+                "quorum_threshold_percentages": [
+                    66
+                ]
+            }
+        ],
+        "avs_registry_coordinator_address": "0xDc7e13f1A2Bd0346D741E932CaA341AB6EC21e92",
+        "operator_state_retriever_address": "0xCACc7483f5268366EDf9Cb7e9d6eE2fd47Bc3ff9",
+        "aggregator_state_retriever_address": "0xb3AcAF09a1B801E36655B786da4EAA6aE9F5DC37",
+        "avs_contract_address": "0xb3AcAF09a1B801E36655B786da4EAA6aE9F5DC37",
+        "abi_path": "./abi/MachServiceManager.json",
+        "aggregator_state_retriever_abi_path": "./abi/MachServiceManager.json"
+    }
+]
