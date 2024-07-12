@@ -34,11 +34,11 @@ configs:
       rpc_vhosts: ["*", "localhost"]
       rpc_cors: ["*", "localhost"]
     
-      chain_ids:
-        gmnetwork: 2777
-  
-      work_proofs_mod:
-        gmnetwork: 900
+    chain_ids:
+      gmnetwork: 2777
+
+    work_proofs_mod:
+      gmnetwork: 900
 
 secrets:
   create: true
