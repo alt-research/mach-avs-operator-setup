@@ -28,6 +28,7 @@ services:
       - alt-mach-operator-network
     volumes:
       - "${AVS_CONFIGS_PATH}:/app/configs:readonly"
+      - "${NODE_BLS_KEY_FILE_HOST}:/app/operator_keys/bls_key.json:readonly"
     restart: unless-stopped
     depends_on:
       - mach-generic-operator-node
