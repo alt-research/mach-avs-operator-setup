@@ -1,0 +1,14 @@
+method: "confirmAlert"
+
+generic_operator_addr: http://mach-avs-ethereum-xterio-operator:8901
+
+rpc_cfg:
+  rpc_addr: 0.0.0.0:8902
+  rpc_vhosts: ["*", "localhost"]
+  rpc_cors: ["*", "localhost"]
+
+chain_ids:
+  xterio: 112358
+
+work_proofs_mod:
+  xterio: 9000
