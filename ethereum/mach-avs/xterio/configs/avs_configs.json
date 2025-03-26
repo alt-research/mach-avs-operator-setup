@@ -1,0 +1,22 @@
+[
+    {
+        "avs_name": "xterio",
+        "methods": [
+            {
+                "method": "confirmAlert",
+                "quorum_numbers": [
+                    0
+                ],
+                "quorum_threshold_percentages": [
+                    66
+                ]
+            }
+        ],
+        "avs_registry_coordinator_address": "0x6e32dD4169825337B54236b9355910b83E51e5a8",
+        "operator_state_retriever_address": "0x342D475f3ae36e0CFBF19c222f203048446955b6",
+        "aggregator_state_retriever_address": "0x6026b61bDD2252160691CB3F6005B6B72E0Ec044",
+        "avs_contract_address": "0x6026b61bDD2252160691CB3F6005B6B72E0Ec044",
+        "abi_path": "./abi/MachServiceManager.json",
+        "aggregator_state_retriever_abi_path": "./abi/MachServiceManager.json"
+    }
+]
