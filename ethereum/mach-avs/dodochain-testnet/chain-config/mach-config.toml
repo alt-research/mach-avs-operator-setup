@@ -30,7 +30,7 @@ mode = "unsafe"
 #
 # NOTE
 # We need the Nitro node to enable `arbvalidator_validateMessageNumber` RPC if we use `safe` or `strict` validator mode
-url = "https://dodochain-testnet-defensive.alt.technology"
+url = "https://dodochain-testnet.alt.technology"
 # The interval (milliseconds) for fetching finalized/latest block of Nitro node
 # Optional, default value: 4000ms
 interval_ms = 4000
