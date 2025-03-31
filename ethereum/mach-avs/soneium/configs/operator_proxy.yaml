@@ -1,0 +1,14 @@
+method: "confirmAlert"
+
+generic_operator_addr: http://mach-avs-ethereum-soneium-operator:8901
+
+rpc_cfg:
+  rpc_addr: 0.0.0.0:8902
+  rpc_vhosts: ["*", "localhost"]
+  rpc_cors: ["*", "localhost"]
+
+chain_ids:
+  soneium: 1868
+
+work_proofs_mod:
+  soneium: 500
