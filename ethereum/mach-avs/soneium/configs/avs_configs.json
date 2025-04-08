@@ -1,0 +1,22 @@
+[
+    {
+        "avs_name": "soneium",
+        "methods": [
+            {
+                "method": "confirmAlert",
+                "quorum_numbers": [
+                    0
+                ],
+                "quorum_threshold_percentages": [
+                    66
+                ]
+            }
+        ],
+        "avs_registry_coordinator_address": "0x2c23CF71C023CBA700E379c8E73f040c70211D67",
+        "operator_state_retriever_address": "0x6c07bE0A687F0261BB8Bc6dC76c596E9b09Ec7Aa",
+        "aggregator_state_retriever_address": "0x203b9Acb40DfBB911f1e39C784EAB639418dae04",
+        "avs_contract_address": "0x203b9Acb40DfBB911f1e39C784EAB639418dae04",
+        "abi_path": "./abi/MachServiceManager.json",
+        "aggregator_state_retriever_abi_path": "./abi/MachServiceManager.json"
+    }
+]
