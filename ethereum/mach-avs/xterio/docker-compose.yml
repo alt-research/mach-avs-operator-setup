@@ -3,7 +3,7 @@ services:
     env_file:
       - .env
     container_name: ${MAIN_SERVICE_NAME}
-    image: ${MAIN_SERVICE_IMAGE}
+    image: public.ecr.aws/altlayer/alt-generic-operator:v0.3.3
     expose:
       - 8901
       - 9092
