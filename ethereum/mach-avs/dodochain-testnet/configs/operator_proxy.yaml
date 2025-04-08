@@ -1,0 +1,14 @@
+method: "confirmAlert"
+
+generic_operator_addr: http://mach-avs-ethereum-dodochaintestnet-operator:8901
+
+rpc_cfg:
+  rpc_addr: 0.0.0.0:8902
+  rpc_vhosts: ["*", "localhost"]
+  rpc_cors: ["*", "localhost"]
+
+chain_ids:
+  dodochaintestnet: 53457
+
+work_proofs_mod:
+  dodochaintestnet: 1000
