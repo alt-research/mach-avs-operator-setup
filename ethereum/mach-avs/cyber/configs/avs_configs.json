@@ -1,0 +1,22 @@
+[
+    {
+        "avs_name": "cyber",
+        "methods": [
+            {
+                "method": "confirmAlert",
+                "quorum_numbers": [
+                    0
+                ],
+                "quorum_threshold_percentages": [
+                    66
+                ]
+            }
+        ],
+        "avs_registry_coordinator_address": "0x118610D207A32f10F4f7C3a1FEFac5b3327c2bad",
+        "operator_state_retriever_address": "0xD74D895d3fcC7cDb0E48D3bD0eFF613D1f513d82",
+        "aggregator_state_retriever_address": "0x1F2c296448f692af840843d993fFC0546619Dcdb",
+        "avs_contract_address": "0x1F2c296448f692af840843d993fFC0546619Dcdb",
+        "abi_path": "./abi/MachServiceManager.json",
+        "aggregator_state_retriever_abi_path": "./abi/MachServiceManager.json"
+    }
+]
