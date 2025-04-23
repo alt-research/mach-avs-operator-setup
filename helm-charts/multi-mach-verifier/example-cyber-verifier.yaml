@@ -1,0 +1,99 @@
+configs:
+  mach-config.toml: |
+    ##############################################
+    # Mach operator configuration                #
+    ##############################################
+    [operator]
+    # Enabling the operator is a prerequisite for health check and alert messages to be sent to the Mach AVS operator,
+    # Otherwise, only the warning logs will be printed.
+    # Optional, default value: false
+    enable = true
+    # The JSONRPC endpoint of Multi Mach AVS Operator
+    # Please use the created multi-mach-operator service name. The k8s service docs: https://kubernetes.io/docs/concepts/services-networking/service
+    url = "http://[multi-mach-operator-service]:8902/cyber"
+    # The alerts will be sent to the Mach AVS Operator only when both operator and alert are enabled,
+    # Otherwise, only the warning log will be printed.
+    # Optional, default value: false
+    alert = true
+    
+    ##############################################
+    # Mach validator configuration               #
+    ##############################################
+    [validator]
+    # Validate mode: "unsafe", "safe", "strict"
+    #
+    # "unsafe": Don't validate block, return ok directly.
+    # "safe": Validate block, return ok regardless of whether it's right or wrong.
+    # "strict": Validate block, return the validation result.
+    #
+    # Optional, default value: "unsafe"
+    mode = "unsafe"
+    # The rate limit of rpc request
+    # Optional, default value: 100ms
+    rpc_rate_ms = 100
+    
+    ##############################################
+    # Mach collector configuration               #
+    ##############################################
+    [collector]
+    # The JSONRPC endpoint of Optimism node
+    #
+    # NOTE:
+    # The chain ID of endpoint must be the same as the chain ID specified in the genesis (json) file.
+    # If you have run the rollup fullnode by yourself, we highly recommend you to let the `op-mach` run in the LAN with the fullnode,
+    # to reduce network latency between fullnode and `op-mach`.
+    # Optional, default value: "http://127.0.0.1:8094"
+    url = "https://rpc.cyber.co"
+    # The interval (milliseconds) for fetching finalized/latest block of Optimism node
+    # Optional, default value: 4000ms
+    interval_ms = 4000
+    # The maximum number of blocks that can be fetched at one time
+    # Optional, default value: 1
+    max_fetcher = 1
+    
+    ##############################################
+    # Mach scheduler configuration               #
+    ##############################################
+    [scheduler]
+    # The interval between verified blocks
+    # Optional, default value: 1
+    verify_block_interval = 10
+    # The timeout waiting for verify result.
+    # If it times out, the verify result will be checked again in the next tick.
+    # Optional, default value: 10ms
+    verify_timeout_ms = 10
+    # The timeout waiting for retry to validate.
+    # If it times out, the validation will be executed again in the next tick.
+    # Optional, default value: 10000ms
+    retry_wait_timout_ms = 10000
+    
+    ##############################################
+    # Mach prometheus configuration              #
+    ##############################################
+    [prometheus]
+    # The TCP port of Prometheus exporter
+    # Optional, default value: 9094
+    port = 9094
+    # The HTTP URI path for fetching Prometheus metrics
+    #
+    # Path
+    #  - `/:metrics` or `/:metrics/text`: text encoding of metrics
+    #  - `/:metrics/protobuf`: protobuf encoding of metrics
+    #
+    # Optional, default value: "/metrics"
+    metrics_path = "/metrics"
+    # The indication if expose Prometheus exporter on all interfaces
+    # true: listen address = "0.0.0.0:port"
+    # false: listen address = "127.0.0.1:port"
+    # Optional, default value: false
+    external = true
+  genesis.json: |
+    {"config":{"chainId":7560,"homesteadBlock":0,"eip150Block":0,"eip155Block":0,"eip158Block":0,"byzantiumBlock":0,"constantinopleBlock":0,"petersburgBlock":0,"istanbulBlock":0,"muirGlacierBlock":0,"berlinBlock":0,"londonBlock":0,"arrowGlacierBlock":0,"grayGlacierBlock":0,"mergeNetsplitBlock":0,"shanghaiTime":0,"cancunTime":0,"bedrockBlock":0,"regolithTime":0,"canyonTime":0,"ecotoneTime":0,"terminalTotalDifficulty":0,"terminalTotalDifficultyPassed":true,"optimism":{"eip1559Elasticity":6,"eip1559Denominator":50,"eip1559DenominatorCanyon":250}},"nonce":"0x0","timestamp":"0x6620d857","extraData":"0x424544524f434b","gasLimit":"0x1c9c380","difficulty":"0x0","mixHash":"0x0000000000000000000000000000000000000000000000000000000000000000","coinbase":"0x4200000000000000000000000000000000000011","alloc":{},"number":"0x0","gasUsed":"0x0","parentHash":"0x0000000000000000000000000000000000000000000000000000000000000000","baseFeePerGas":"0x3b9aca00","excessBlobGas":"0x0","blobGasUsed":"0x0"}
+verifier:
+  image:
+    repository: public.ecr.aws/altlayer/mach
+    pullPolicy: Always
+    tag: "v0.3.1"
+  args:
+    - --config=/app/mach-config.toml
+    - --genesis-config=/app/genesis.json
