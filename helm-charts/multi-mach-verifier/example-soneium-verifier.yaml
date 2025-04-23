@@ -9,8 +9,8 @@ configs:
     # Optional, default value: false
     enable = true
     # The JSONRPC endpoint of Multi Mach AVS Operator
-    # Optional, default value: "http://127.0.0.1:8901"
-    url = "http://xxx-mach-operator:8902/soneium"
+    # Please use the created multi-mach-operator service name. the k8s service docs: https://kubernetes.io/docs/concepts/services-networking/service
+    url = "http://[multi-mach-operator-service]:8902/soneium"
     # The alerts will be sent to the Mach AVS Operator only when both operator and alert are enabled,
     # Otherwise, only the warning log will be printed.
     # Optional, default value: false
