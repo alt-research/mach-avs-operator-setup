@@ -10,12 +10,19 @@
 # This will output password with single quote. Not sure why this happens.
 optIn() {
   echo "keys: $NODE_ECDSA_KEY_FILE_HOST"
+  echo "numbers: $REG_QUORUM_NUMBERS"
 
-  docker run --env-file .env.opt \
+  qenv=""
+  if [ "$REG_QUORUM_NUMBERS" != "" ]; then
+    qenv="-e REG_QUORUM_NUMBERS=$REG_QUORUM_NUMBERS"
+  fi
+  echo "qenv: $qenv"
+
+  docker run --env-file .env.opt $qenv \
   --rm \
   --volume "${NODE_ECDSA_KEY_FILE_HOST}":/app/operator_keys/ecdsa_key.json \
   --volume "${NODE_BLS_KEY_FILE_HOST}":/app/operator_keys/bls_key.json \
-  public.ecr.aws/altlayer/mach-operator-tool:v0.2.4 \
+  public.ecr.aws/altlayer/mach-operator-tool:v0.3.2 \
   register-operator-with-avs
 }
 
@@ -24,10 +31,11 @@ optOut() {
     --rm \
     --volume "${NODE_ECDSA_KEY_FILE_HOST}":/app/operator_keys/ecdsa_key.json \
     --volume "${NODE_BLS_KEY_FILE_HOST}":/app/operator_keys/bls_key.json \
-    public.ecr.aws/altlayer/mach-operator-tool:v0.2.4 \
+    public.ecr.aws/altlayer/mach-operator-tool:v0.3.2 \
     deregister-operator-with-avs
 }
 
+REG_QUORUM_NUMBERS="$2"
 
 if [ "$1" = "opt-in" ]; then
   optIn
