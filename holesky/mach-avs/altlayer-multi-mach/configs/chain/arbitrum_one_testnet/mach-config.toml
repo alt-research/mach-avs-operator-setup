@@ -36,7 +36,7 @@ url = "https://arbitrum-one-defensive.alt.technology/arbwatch"
 [collector]
 # The JSONRPC endpoint of Nitro node
 # Optional, default value: "http://127.0.0.1:8094"
-url = "https://arbitrum-one-defensive.alt.technology"
+url = "https://arbitrum-one-rpc.publicnode.com"
 # The interval (milliseconds) for fetching finalized/latest block of Nitro node
 # Optional, default value: 4000ms
 interval_ms = 4000
