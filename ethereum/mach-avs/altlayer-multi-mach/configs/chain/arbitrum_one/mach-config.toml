@@ -1,5 +1,5 @@
 ##############################################
-# Mach operator configuration                 #
+# Mach operator configuration                #
 ##############################################
 [operator]
 # Enabling the operator is a prerequisite for health check and alert messages to be sent to the Mach AVS operator,
