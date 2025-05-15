@@ -26,9 +26,6 @@ alert = true
 #
 # Optional, default value: "unsafe"
 mode = "unsafe"
-# The RESTFUL endpoint of log filter HTTP server
-# Optional, default value: "http://127.0.0.1:2333"
-url = "https://arbitrum-one-defensive.alt.technology/arbwatch"
 
 ##############################################
 # Mach collector configuration               #
