@@ -19,7 +19,6 @@ If you are a whitelisted operator and have questions regarding the setup process
 ## Running an Operator for MACH AVS
 
 * [For Ethereum](ethereum/mach-avs/README.md)
-* [For Holesky testnet](holesky/mach-avs/README.md)
 
 ## Build and run from source code
 
