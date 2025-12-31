@@ -1,5 +1,7 @@
 # Installation of MACH AVS using docker for DODOChain Testnet
 
+> **DEPRECATED:** DODOChain AVS has been deprecated. You may proceed to shut down your operator and opt-out (optional) of the AVS.
+
 ## Prerequisites
 
 * Docker installed
